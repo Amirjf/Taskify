@@ -1,0 +1,31 @@
+.header_container {
+  color: var(--bg-level-1);
+  display: flex;
+  border-bottom: 1px solid #9595954d;
+  margin-bottom: 30px;
+  text-align: left;
+  justify-content: space-between;
+  align-items: center;
+  .header_profile {
+    display: flex;
+    align-items: center;
+    button {
+      background-color: var(--button-bg);
+      display: flex;
+      font-size: 17px;
+      align-items: center;
+      padding: 9px 25px;
+      border-radius: 15px;
+      border: none;
+      margin: 0 20px;
+      i {
+        margin-right: 10px;
+      }
+    }
+    .avatar {
+      border: 2px solid var(--fg);
+      width: 4rem;
+      border-radius: 100%;
+    }
+  }
+}

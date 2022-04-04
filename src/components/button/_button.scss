@@ -1,0 +1,17 @@
+.custom-button {
+  background-color: var(--fg);
+  color: var(--button-fg);
+  display: flex;
+  font-size: 20px;
+  align-items: center;
+  width: 150px;
+  justify-content: center;
+  text-align: center;
+  padding: 9px 25px;
+  border-radius: 15px;
+  border: none;
+  margin: 10px 20px;
+  i {
+    margin-right: 15px;
+  }
+}

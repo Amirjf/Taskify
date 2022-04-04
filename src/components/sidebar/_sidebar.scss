@@ -1,0 +1,41 @@
+.sidebar::-webkit-scrollbar {
+  display: none;
+}
+.sidebar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  height: 100vh;
+  background-color: var(--bg-level-1);
+  width: 290px;
+  overflow: hidden;
+  position: fixed;
+  left: 20px;
+  top: 20px;
+  overflow-y: auto;
+  border-radius: 40px;
+  .sidebar-logo {
+    display: flex;
+    justify-content: start;
+    img {
+      width: 5rem;
+    }
+  }
+  .sidebar-navs {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    li a {
+      display: flex;
+      color: #a2a7af;
+      text-decoration: none;
+      margin: 30px auto;
+      align-items: center;
+      &.active {
+        color: #5c5cae;
+      }
+    }
+    li i {
+      margin-right: 13px;
+    }
+  }
+}

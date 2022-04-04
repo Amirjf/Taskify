@@ -1,0 +1,31 @@
+@import url("https://fonts.googleapis.com/css?family=Rajdhani:600&display=swap");
+
+body {
+  font-family: "Rajdhani", sans-serif;
+  margin: 30px;
+  padding: 5px;
+  font-size: 1.4em;
+  background-color: var(--bg);
+  transition: all 0.7s;
+}
+
+[data-theme="dark"] {
+  --bg: #222c41;
+  --bg-level-1: #293247;
+  --text-fg: #eee;
+  --fg: #ffc149;
+  --input-bg: #2e384e;
+  --button-bg: #ffc149;
+  --button-fg: #eee;
+}
+
+[data-theme="light"] {
+  --bg: #fff;
+  --text-fg: #323232;
+  --bg-level-1: #eee;
+  --fg: #ffc149;
+  --input-bg: rgb(0 0 0 / 10%);
+  --input-fg: #323232;
+  --button-bg: #ffc149;
+  --button-fg: #323232;
+}
