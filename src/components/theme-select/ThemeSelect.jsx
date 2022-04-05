@@ -5,29 +5,37 @@ import { motion } from "framer-motion";
 const ThemeSelect = () => {
   const setTheme = useSetTheme();
   const { themeMode } = useTheme();
-  const [isOn, setIsOn] = useState(false);
 
-  const toggleSwitch = () => setIsOn(!isOn);
+  const handleThemeSelect = () => {
+    switch (themeMode) {
+      case "light":
+        return <i className="gg-sun"></i>;
+      case "dark":
+        return <i className="gg-moon"></i>;
+      case "mixed":
+        return <i className="gg-edit-highlight"></i>;
+      default:
+        return null;
+    }
+  };
   const handleThemeChanged = React.useCallback(
     (e) => {
-      const theme = e.target.checked;
-      theme ? setTheme("light") : setTheme("dark");
+      // const theme = e.target.checked;
+      // theme ? setTheme("light") : setTheme("dark");
+      setTheme(e.target.value);
     },
     [setTheme]
   );
-  console.log(themeMode);
   return (
     <>
-      <label className="switch" value={themeMode} onChange={handleThemeChanged}>
-        <input type="checkbox" value="light" />
-        <span className="slider round">
-          {themeMode === "light" ? (
-            <i className="gg-moon dark-icon"></i>
-          ) : (
-            <i className="gg-sun light-icon"></i>
-          )}
-        </span>
-      </label>
+      <div className="select-container text-white">
+        {handleThemeSelect()}
+        <select name="color" value={themeMode} onChange={handleThemeChanged}>
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+          <option value="mixed">Mixed</option>
+        </select>
+      </div>
     </>
   );
 };

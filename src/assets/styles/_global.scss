@@ -12,6 +12,7 @@ body {
 [data-theme="dark"] {
   --bg: #222c41;
   --bg-level-1: #293247;
+  --calendar-text: #eee;
   --text-fg: #eee;
   --fg: #ffc149;
   --input-bg: #2e384e;
@@ -26,6 +27,17 @@ body {
   --fg: #ffc149;
   --input-bg: rgb(0 0 0 / 10%);
   --input-fg: #323232;
+  --button-bg: #ffc149;
+  --button-fg: #323232;
+}
+[data-theme="mixed"] {
+  --bg: #222c41;
+  --text-fg: #fff;
+  --bg-level-1: #eee;
+  --fg: #ffc149;
+  --calendar-text: #323232;
+  --input-bg: rgb(0 0 0 / 10%);
+  --input-fg: #fff;
   --button-bg: #ffc149;
   --button-fg: #323232;
 }
