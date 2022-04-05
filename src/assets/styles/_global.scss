@@ -9,6 +9,14 @@ body {
   transition: all 0.7s;
 }
 
+div {
+  transition: background 0.7s;
+}
+
+a {
+  text-decoration: none;
+}
+
 [data-theme="dark"] {
   --bg: #222c41;
   --bg-level-1: #293247;
@@ -18,6 +26,7 @@ body {
   --input-bg: #2e384e;
   --button-bg: #ffc149;
   --button-fg: #eee;
+  --label-fg: #eee;
 }
 
 [data-theme="light"] {
@@ -29,6 +38,7 @@ body {
   --input-fg: #323232;
   --button-bg: #ffc149;
   --button-fg: #323232;
+  --label-fg: #222c41;
 }
 [data-theme="mixed"] {
   --bg: #222c41;
@@ -36,8 +46,9 @@ body {
   --bg-level-1: #eee;
   --fg: #ffc149;
   --calendar-text: #323232;
-  --input-bg: rgb(0 0 0 / 10%);
+  --input-bg: #293247;
   --input-fg: #fff;
+  --label-fg: #222c41;
   --button-bg: #ffc149;
   --button-fg: #323232;
 }

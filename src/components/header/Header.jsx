@@ -15,32 +15,38 @@ const Header = ({ title }) => {
   console.log(userInfo);
 
   return (
-    <div className="header_container">
+    <div className="header-container">
       <SectionHeading
         title={pathname !== "/" ? pathname.slice(1).toUpperCase() : "Dashboard"}
       />
-      <div className="header_profile">
+      <div className="header-profile">
         <ThemeSelect />
         <button>
           <i className="gg-add"></i>
           New Task
         </button>
-        <span className="user-name">{user ? user.displayName : null}</span>
-        <Link to="/auth">
-          <img
-            className="avatar"
-            src={
-              user
-                ? user.photoURL
-                : "https://www.iranhotels.com/assets/img/admin.png"
-            }
-            alt="avatar"
-          />
-        </Link>
-        <div className="logout-container" onClick={logout}>
-          <i className="gg-log-out"></i>
-          <span className="dropdown">Logout</span>
+        <div className="avatar-container">
+          <Link to="/auth">
+            <img
+              className="avatar"
+              src={
+                user
+                  ? user.photoURL
+                  : "https://www.iranhotels.com/assets/img/admin.png"
+              }
+              alt="avatar"
+            />
+          </Link>
+          <span className="user-name-dropdown">
+            {user ? user.displayName : null}
+          </span>
         </div>
+        {user ? (
+          <div className="logout-container" onClick={logout}>
+            <i className="gg-log-out"></i>
+            <span className="dropdown">Logout</span>
+          </div>
+        ) : null}
       </div>
     </div>
   );
