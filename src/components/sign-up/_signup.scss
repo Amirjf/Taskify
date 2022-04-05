@@ -1,0 +1,24 @@
+input {
+  margin: 15px auto;
+}
+
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sign-in-container {
+  padding: 25px;
+  border-radius: 25px;
+  background-color: var(--bg-level-1);
+  color: var(--text-fg);
+  width: 70%;
+  justify-content: space-evenly;
+
+  .logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

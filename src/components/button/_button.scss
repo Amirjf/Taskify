@@ -10,7 +10,27 @@
   padding: 9px 25px;
   border-radius: 15px;
   border: none;
-  margin: 10px 20px;
+  margin: 10px auto;
+  i {
+    margin-right: 15px;
+  }
+  &.block {
+    width: 100%;
+  }
+}
+.google-button {
+  background-color: rgb(0, 136, 255);
+  color: #fff;
+  font-size: 20px;
+  align-items: center;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+  padding: 9px 25px;
+  border-radius: 15px;
+  border: none;
+
   i {
     margin-right: 15px;
   }

@@ -1,27 +1,21 @@
 import React from "react";
-import CalendarColumn from "./components/calendar/Calendar";
-import Header from "./components/header/Header";
 import MainContent from "./components/MainContent/MainContent";
-import Sidebar from "./components/sidebar/Sidebar";
-import Todo from "./components/todo/ToDo";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
+import AuthPage from "./pages/auth/AuthPage";
+import HomePage from "./pages/homepage/HomePage";
+import TodoPage from "./pages/todo/TodoPage";
 
 const App = () => {
   return (
     <div>
       <MainContent>
-        <Sidebar />
-        <Header />
         <Routes>
-          {/* <Route
-            path="/"
-            element={(props) => props.location.pathname !== "/" && <Header />}
-          /> */}
-          <Route path="/todo" element={<Todo />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/todo" element={<TodoPage />} />
+          <Route path="/auth" element={<AuthPage />} />
         </Routes>
       </MainContent>
-      <CalendarColumn />
     </div>
   );
 };

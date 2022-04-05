@@ -1,14 +1,12 @@
 import React from "react";
-import { motion } from "framer-motion";
 import "./_input.scss";
-const Input = ({ type, handleChange, ...otherProps }) => {
+
+const Input = ({ type, label, ...otherProps }) => {
   return (
-    <motion.input
-      whileTap={{ scale: 0.99 }}
-      type={type}
-      onChange={handleChange}
-      {...otherProps}
-    />
+    <div className="input-container">
+      {label && <label>{label}</label>}
+      <input type={type} {...otherProps} />
+    </div>
   );
 };
 

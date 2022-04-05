@@ -1,3 +1,12 @@
+.input-container {
+  margin: 30px auto;
+  label {
+    margin-bottom: 5px;
+    padding-left: 5px;
+    padding-bottom: 10px;
+  }
+}
+
 input {
   background-color: var(--input-bg);
   border: 2px solid var(--input-bg);
