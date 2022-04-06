@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import Button from "../button/Button";
 import Logo from "../../assets/images/mylogo.png";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { motion } from "framer-motion";
 import { useAuthState } from "react-firebase-hooks/auth";
 import {
@@ -11,7 +12,7 @@ import {
 } from "../../firebase/firebase.config";
 import "./_signin.scss";
 import { useForm } from "react-hook-form";
-import Form from "../form/Form";
+import Input from "../input/Input";
 
 const SignIn = () => {
   const {
@@ -29,40 +30,48 @@ const SignIn = () => {
       <h1 className="texh-white">Loading ...</h1>;
       return;
     }
-    if (user) navigate("/");
+    if (user) {
+      toast.success(`Sign in was Succussfull`);
+      navigate("/");
+    }
   }, [user, loading]);
 
   const onSubmit = (data) => {
-    const { email, password } = data;
-    logInWithEmailAndPassword(email, password);
+    const { email, password, displayName } = data;
+    logInWithEmailAndPassword(email, password, displayName);
   };
-
   return (
     <motion.div layout className="sign-in-container">
       <div className="logo-container">
         <img src={Logo} alt="logo" />
       </div>
       <h1>Login to your account</h1>
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <label>Email</label>
-        <input
-          type="text"
-          name="email"
-          {...register("email")}
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Input
+          label="Email"
+          registerLabel="email"
+          errors={errors}
+          register={register}
+          required
           placeholder="Example : Amirmasoud@gmail.com"
         />
-        <label>Password</label>
-        <input
+
+        <Input
+          label="Password"
           type="password"
-          {...register("password")}
-          name="password"
+          registerLabel="password"
+          errors={errors}
+          register={register}
+          required
           placeholder="type a password"
         />
-        <Button block>Sign in</Button>
-      </Form>
-      <Button block icon="google" isGoogle onClick={signInWithGoogle}>
-        Sign in with Google
-      </Button>
+        <div className="sign-in-button-container">
+          <Button block>Sign in</Button>
+          <Button block icon="google" isGoogle onClick={signInWithGoogle}>
+            Sign in with Google
+          </Button>
+        </div>
+      </form>
     </motion.div>
   );
 };

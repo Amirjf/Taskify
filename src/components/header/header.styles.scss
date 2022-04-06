@@ -25,6 +25,12 @@
     }
     .avatar-container {
       position: relative;
+      /* width: 50px; */
+      flex-direction: column;
+      justify-content: center;
+      /* padding-top: 30px; */
+      align-items: center;
+      display: flex;
       .avatar {
         border: 2px solid var(--fg);
         width: 3rem;
@@ -32,12 +38,16 @@
         border-radius: 100%;
       }
       .user-name-dropdown {
-        width: 200px;
+        color: var(--text-fg);
+
         opacity: 0;
+        width: 150px;
         position: absolute;
+        z-index: 999999;
+        text-align: center;
         top: 61px;
         transition: opacity 0.4s;
-        right: -83px;
+        right: -32px;
       }
       &:hover .user-name-dropdown {
         opacity: 1;
@@ -62,6 +72,7 @@
 
   .dropdown {
     opacity: 0;
+    color: var(--text-fg);
     position: absolute;
     top: 40px;
     transition: opacity 0.4s;

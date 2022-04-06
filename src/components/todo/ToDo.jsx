@@ -4,8 +4,6 @@ import SectionHeading from "../section-heading/SectionHeading";
 import ToDoItems from "../todo-items/ToDoItems";
 import Input from "../input/Input";
 import Button from "../button/Button";
-import Sidebar from "../sidebar/Sidebar";
-import Header from "../header/Header";
 
 const Todo = () => {
   const [term, setTerm] = useState("");
@@ -37,7 +35,7 @@ const Todo = () => {
   return (
     <>
       <SectionHeading title="ToDo List ... " />
-      <form onSubmit={onSubmit} className="App">
+      <form onSubmit={onSubmit}>
         <Input
           type="text"
           name="todo"

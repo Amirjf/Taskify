@@ -16,4 +16,10 @@ input {
   label {
     color: var(--label-fg);
   }
+  .sign-in-button-container {
+    display: flex;
+    button {
+      margin: 10px 10px;
+    }
+  }
 }

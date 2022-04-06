@@ -11,6 +11,7 @@ import {
 import { useForm } from "react-hook-form";
 import Form from "../form/Form";
 import "./_signup.scss";
+import Input from "../input/Input";
 
 const SignUn = () => {
   const navigate = useNavigate();
@@ -28,8 +29,8 @@ const SignUn = () => {
   }, [user, loading]);
 
   const onSubmit = (data) => {
-    const { email, password, name } = data;
-    registerWithEmailAndPassword(name, email, password);
+    const { email, password, displayName } = data;
+    registerWithEmailAndPassword(displayName, email, password);
   };
 
   return (
@@ -39,30 +40,34 @@ const SignUn = () => {
       </div>
       <h1>Register an account</h1>
 
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <label>Name</label>
-        <input
-          type="text"
-          name="name"
-          {...register("name")}
-          placeholder="Example : Amirmasoud "
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Input
+          label="Full Name"
+          registerLabel="displayName"
+          errors={errors}
+          register={register}
+          required
+          placeholder="Example : Amirmasoud Jafari"
         />
-        <label>Email</label>
-        <input
-          type="text"
-          name="email"
-          {...register("email")}
+        <Input
+          label="Email"
+          registerLabel="email"
+          errors={errors}
+          register={register}
+          required
           placeholder="Example : Amirmasoud@gmail.com"
         />
-        <label>Password</label>
-        <input
+        <Input
           type="password"
-          {...register("password")}
-          name="password"
+          label="Password"
+          registerLabel="password"
+          register={register}
+          errors={errors}
+          required
           placeholder="type a password"
         />
         <Button block>Sign Up Now !</Button>
-      </Form>
+      </form>
     </motion.div>
   );
 };
