@@ -17,7 +17,9 @@ const Tasks = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const { user } = useAuthState(auth);
-  const [activeUser, setActiveUser] = useState(user);
+  const [showTaskForm, setShowTaskForm] = useState(false);
+
+  const toggle = () => setShowTaskForm(!showTaskForm);
 
   const {
     handleSubmit,
@@ -49,8 +51,13 @@ const Tasks = () => {
 
   return (
     <>
-      <SectionHeading title="Add New Task " />
-      <div className="add-task-form">
+      <Button onClick={() => toggle()} type="button">
+        Add new Task
+      </Button>
+      <div className={`add-task-form shadow ${showTaskForm ? "show" : ""}`}>
+        <div className="close-form" onClick={() => toggle()}>
+          <i className="gg-close"></i>
+        </div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Input
             label="Task Title"
@@ -137,7 +144,8 @@ const Tasks = () => {
       <SectionHeading title="Your latest tasks : " />
 
       <div className="project-boxes">
-        {loading && items.map((item) => <TasksItems key={item} item={item} />)}
+        {loading &&
+          items.map((item, id) => <TasksItems key={id} item={item} />)}
       </div>
     </>
   );

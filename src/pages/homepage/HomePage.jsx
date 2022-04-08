@@ -29,7 +29,7 @@ const HomePage = () => {
       <Header />
       <div className="project-boxes">
         {user && loading ? (
-          data.map((item) => <TaskItems item={item} />)
+          data.map((item, id) => <TaskItems key={id} item={item} />)
         ) : user ? (
           <Loading />
         ) : (
