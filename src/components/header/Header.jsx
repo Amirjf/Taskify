@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./header.styles.scss";
 import SectionHeading from "../section-heading/SectionHeading";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { logout } from "../../firebase/firebase.config";
 import ThemeSelect from "../theme-select/ThemeSelect";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase/firebase.config";
+import { db } from "../../firebase/firebase.config";
 const Header = ({ title }) => {
   let { pathname } = useLocation();
   const [user] = useAuthState(auth);
+  const navigate = useNavigate();
 
   const handleUserAvatar = () => {
     if (user === null) {
@@ -35,12 +37,12 @@ const Header = ({ title }) => {
           <Link className="image-link-container" to={user ? "/" : "/auth"}>
             <img className="avatar" src={handleUserAvatar()} alt="avatar" />
             <span className="user-name-dropdown">
-              {user ? user.displayName : null}
+              {user ? user.displayName : ""}
             </span>
           </Link>
         </div>
         {user ? (
-          <div className="logout-container" onClick={logout}>
+          <div className="logout-container" onClick={() => auth.signOut()}>
             <i className="gg-log-out"></i>
             <span className="dropdown">Logout</span>
           </div>

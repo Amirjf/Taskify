@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 import "./_input.scss";
 
 const Input = ({
@@ -13,7 +14,8 @@ const Input = ({
   return (
     <div className="input-container">
       {label && <label>{label}</label>}
-      <input
+      <motion.input
+        whileTap={{ scale: 0.9 }}
         type={type}
         className={`${errors[registerLabel] ? "error" : ""}`}
         {...register(registerLabel, { required })}

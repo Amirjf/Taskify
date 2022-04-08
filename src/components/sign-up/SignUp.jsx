@@ -1,16 +1,14 @@
 import React, { useEffect } from "react";
 import Button from "../button/Button";
 import { motion } from "framer-motion";
-import Logo from "../../assets/images/mylogo.png";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import {
   auth,
+  createUserProfileDocument,
   registerWithEmailAndPassword,
 } from "../../firebase/firebase.config";
 import { useForm } from "react-hook-form";
-import Form from "../form/Form";
-import "./_signup.scss";
 import Input from "../input/Input";
 
 const SignUn = () => {
@@ -28,18 +26,24 @@ const SignUn = () => {
     if (user) navigate("/");
   }, [user, loading]);
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const { email, password, displayName } = data;
-    registerWithEmailAndPassword(displayName, email, password);
+
+    try {
+      const { user } = await auth.createUserWithEmailAndPassword(
+        email,
+        password
+      );
+      console.log(user);
+
+      await createUserProfileDocument(user, { displayName });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
     <motion.div layout className="sign-up-container">
-      <div className="logo-container">
-        <img src={Logo} alt="logo" />
-      </div>
-      <h1>Register an account</h1>
-
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input
           label="Full Name"

@@ -3,7 +3,7 @@
 import "firebase/compat/firestore";
 import "firebase/compat/auth";
 import firebase from "firebase/compat/app";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, getDocs } from "firebase/firestore";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -12,6 +12,7 @@ import {
 } from "firebase/auth";
 
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const firebaseConfig = {
   apiKey: "AIzaSyC964LJ6JsnmBWpxowctCf4MTj3GydDMGc",
@@ -31,59 +32,56 @@ const db = firebase.firestore();
 const provider = new firebase.auth.GoogleAuthProvider();
 provider.setCustomParameters({ prompt: "select_account" });
 const signInWithGoogle = async () => {
-  const res = await auth.signInWithPopup(provider);
-  const user = res.user;
-  console.log(user);
-  const userRef = db.doc(`users/${user.uid}`);
-  const snapShot = await userRef.get();
-  const { displayName, email } = user;
-  if (!snapShot.exists) {
-    const createdAt = new Date();
-    try {
+  try {
+    const res = await auth.signInWithPopup(provider);
+    const user = res.user;
+    const userRef = db.doc(`users/${user.uid}`);
+    const snapShot = await userRef.get();
+    const { displayName, email } = user;
+    if (!snapShot.exists) {
+      const createdAt = new Date();
       await userRef.set({
         displayName,
         email,
         createdAt,
       });
-    } catch (error) {
-      console.log("error", error.message);
     }
+  } catch (error) {
+    console.log("error", error.message);
   }
-  console.log("snapShot", snapShot);
 };
 
-// const signInWithGoogle = async () => {
-//   try {
-//     const res = await signInWithPopup(auth, googleProvider);
-//     const user = res.user;
-//     const q = doc(collection(db, "users", where("uid", "==", user.uid)));
-//     const docs = await getDocs(q);
-//     console.log(docs);
-//     const createdAt = new Date();
-//     const userRef = collection(db, "users");
-//     docs.forEach((doc) => {
-//       setDoc(doc.ref, {
-//         name: "prueba",
-//         uid: "sdfsdfsdf",
-//         projectId: "sdfsdfds",
-//       });
-//     });
+export const CreateTaskCollection = async (data) => {
+  let batch = db.batch();
+  const { color, status, task, taskCategory } = data;
 
-// const taskQuery = doc(collection(db, "categorias"), where("uid", "==", currentUser))
-// const taskDocs = await getDocs(taskQuery)
-// taskDocs.forEach((taskDoc) => {
-//   await setDoc(taskDoc.ref, {
-//     name: 'prueba',
-//     uid: currentUser,
-//     projectId: newDocRef.id
-//   })
-// })
-//   } catch (err) {
-//     alert(err.message);
-//   }
-// };
+  const subCollectionDocRef = db
+    .collection("users")
+    .doc(auth.currentUser.uid)
+    .collection("tasks")
+    .doc();
+  const date = new Date().toDateString();
+  batch.set(subCollectionDocRef, {
+    taskTitle: task,
+    taskStatus: status,
+    taskCategory: taskCategory,
+    taskCreatedAt: date,
+    taskColor: color,
+  });
 
-export const testCreateCollection = async () => {};
+  await batch.commit();
+};
+
+export const GetTaskDocCollection = async () => {
+  const userRef = db.collection("users").doc(auth.currentUser.uid);
+  const tasksRef = collection(userRef, "tasks");
+  const tasksDoc = await getDocs(collection(userRef, "tasks"));
+  const res = tasksDoc.docs.map((doc) => {
+    return doc.data();
+  });
+
+  return res;
+};
 
 const logInWithEmailAndPassword = async (email, password) => {
   try {
@@ -93,22 +91,26 @@ const logInWithEmailAndPassword = async (email, password) => {
   }
 };
 
-const registerWithEmailAndPassword = async (displayName, email, password) => {
-  try {
-    const res = await createUserWithEmailAndPassword(auth, email, password);
-    const user = res.user;
-    const date = new Date();
-    await addDoc(collection(db, "users"), {
-      uid: user.uid,
-      email,
-      displayName,
-      authProvider: "local",
-      createdAt: date,
-    });
-  } catch (err) {
-    console.error(err);
-    alert(err.message);
+const createUserProfileDocument = async (userAuth, additionalData) => {
+  if (!userAuth) return;
+
+  const userRef = db.doc(`users/${userAuth.uid}`);
+  const snapShot = await userRef.get();
+  if (!snapShot.exists) {
+    const { displayName, email } = userAuth;
+    const createdAt = new Date();
+    try {
+      await userRef.set({
+        displayName,
+        email,
+        createdAt,
+        ...additionalData,
+      });
+    } catch (error) {
+      console.log("error", error.message);
+    }
   }
+  return userRef;
 };
 
 const sendPasswordReset = async (email) => {
@@ -129,8 +131,8 @@ export {
   auth,
   db,
   logInWithEmailAndPassword,
+  createUserProfileDocument,
   signInWithGoogle,
-  registerWithEmailAndPassword,
   sendPasswordReset,
   logout,
 };

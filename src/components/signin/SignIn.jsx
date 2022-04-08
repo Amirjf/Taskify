@@ -1,16 +1,13 @@
 import React, { useEffect } from "react";
 import Button from "../button/Button";
-import Logo from "../../assets/images/mylogo.png";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { motion } from "framer-motion";
 import { useAuthState } from "react-firebase-hooks/auth";
 import {
   auth,
   logInWithEmailAndPassword,
   signInWithGoogle,
 } from "../../firebase/firebase.config";
-import "./_signin.scss";
 import { useForm } from "react-hook-form";
 import Input from "../input/Input";
 
@@ -41,11 +38,7 @@ const SignIn = () => {
     logInWithEmailAndPassword(email, password, displayName);
   };
   return (
-    <motion.div layout className="sign-in-container">
-      <div className="logo-container">
-        <img src={Logo} alt="logo" />
-      </div>
-      <h1>Login to your account</h1>
+    <div className="sign-in-container">
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input
           label="Email"
@@ -66,13 +59,15 @@ const SignIn = () => {
           placeholder="type a password"
         />
         <div className="sign-in-button-container">
-          <Button block>Sign in</Button>
-          <Button block icon="google" isGoogle onClick={signInWithGoogle}>
-            Sign in with Google
+          <Button type="submit" block>
+            Sign in
           </Button>
         </div>
       </form>
-    </motion.div>
+      <Button block icon="google" isGoogle onClick={signInWithGoogle}>
+        Sign in with Google
+      </Button>
+    </div>
   );
 };
 

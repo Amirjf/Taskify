@@ -1,19 +1,15 @@
-.back-to-home {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
 .auth-container {
-  position: relative;
   color: var(--fg);
+  background-color: var(--bg-level-1);
+  max-width: 650px;
+  margin: 0 auto;
+  border-radius: 25px;
   h1 {
     text-align: center;
   }
   .nav-buttons .sign-in-nav {
     background-color: var(--bg-level-1);
     color: var(--button-fg);
-    position: absolute;
     padding: 20px;
     border: none;
     &.active {
@@ -23,12 +19,14 @@
   .nav-buttons .sign-up-nav {
     background-color: var(--bg-level-1);
     color: var(--button-fg);
-    position: absolute;
     padding: 20px;
-    left: 100px;
     border: none;
     &.active {
       border-bottom: solid 2px var(--fg);
     }
+  }
+  .sign-up-container,
+  .sign-in-container {
+    padding: 25px;
   }
 }

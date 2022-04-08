@@ -11,9 +11,13 @@
   top: 20px;
   overflow-y: auto;
   border-radius: 40px;
+  &.hide {
+    right: -600px;
+  }
 }
 
 .react-calendar {
+  padding-top: 15px;
   background-color: var(--bg-level-1) !important;
   border: none !important;
 }

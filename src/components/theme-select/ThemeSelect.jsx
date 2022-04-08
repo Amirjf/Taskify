@@ -28,7 +28,7 @@ const ThemeSelect = () => {
   );
   return (
     <>
-      <div className="select-container text-white">
+      <div className="theme-select-container text-white">
         {handleThemeSelect()}
         <select name="color" value={themeMode} onChange={handleThemeChanged}>
           <option value="light">Light</option>

@@ -1,0 +1,364 @@
+.project-boxes {
+  margin: 0 -8px;
+
+  display: flex;
+  flex-wrap: wrap;
+  .project-box-wrapper {
+    width: 33.3%;
+  }
+}
+
+.project-box {
+  border-radius: 30px;
+  padding: 16px;
+  background-color: #dbf6fd;
+
+  &-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    color: var(--main-color);
+
+    span {
+      color: #4a4a4a;
+      opacity: 0.7;
+      font-size: 14px;
+      line-height: 16px;
+    }
+  }
+
+  &-content-header {
+    text-align: center;
+    margin-bottom: 16px;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  &-wrapper {
+    padding: 8px;
+    transition: 0.2s;
+  }
+}
+
+.project-btn-more {
+  padding: 0;
+  height: 14px;
+  width: 24px;
+  height: 24px;
+  position: relative;
+  background-color: transparent;
+  border: none;
+  flex-shrink: 0;
+}
+
+.more-wrapper {
+  position: relative;
+}
+
+.box-content-header {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 700;
+  opacity: 0.7;
+}
+
+.box-content-subheader {
+  font-size: 14px;
+  line-height: 24px;
+  opacity: 0.7;
+}
+
+.box-progress {
+  display: block;
+  height: 4px;
+  border-radius: 6px;
+
+  &-bar {
+    width: 100%;
+    height: 4px;
+    border-radius: 6px;
+    overflow: hidden;
+    background-color: #fff;
+    margin: 8px 0;
+  }
+
+  &-header {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 16px;
+    margin: 0;
+  }
+
+  &-percentage {
+    text-align: right;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 16px;
+  }
+}
+
+.project-box-footer {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 16px;
+  position: relative;
+
+  &:after {
+    content: "";
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.6);
+    width: calc(100% + 32px);
+    top: 0;
+    left: -16px;
+    height: 1px;
+  }
+}
+
+.status-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 4px auto;
+  .status {
+    font-size: 12px;
+    color: #fff;
+    font-size: 12px;
+    border-radius: 20px;
+    flex-shrink: 0;
+    padding: 6px 16px;
+    margin: 2px 2px;
+    font-weight: 700;
+  }
+}
+
+.participants {
+  display: flex;
+  align-items: center;
+
+  img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    overflow: hidden;
+    object-fit: cover;
+
+    &:not(:first-child) {
+      margin-left: -8px;
+    }
+  }
+}
+
+.add-participant {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.6);
+  margin-left: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+.days-left {
+  background-color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+  border-radius: 20px;
+  flex-shrink: 0;
+  padding: 6px 16px;
+  font-weight: 700;
+}
+
+.mode-switch.active .moon {
+  fill: var(--main-color);
+}
+
+.messages-btn {
+  border-radius: 4px 0 0 4px;
+  position: absolute;
+  right: 0;
+  top: 58px;
+  background-color: var(--message-btn);
+  border: none;
+  color: var(--main-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4px;
+  display: none;
+}
+
+@media screen and (max-width: 980px) {
+  .project-boxes.jsGridView .project-box-wrapper {
+    width: 50%;
+  }
+
+  .status-number,
+  .status-type {
+    font-size: 14px;
+  }
+
+  .status-type:after {
+    width: 4px;
+    height: 4px;
+  }
+
+  .item-status {
+    margin-right: 0;
+  }
+}
+
+@media screen and (max-width: 880px) {
+  .messages-section {
+    transform: translateX(100%);
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    z-index: 2;
+    height: 100%;
+    width: 100%;
+
+    .messages-close {
+      display: block;
+    }
+  }
+
+  .messages-btn {
+    display: flex;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .app-name,
+  .profile-btn span {
+    display: none;
+  }
+
+  .add-btn,
+  .notification-btn,
+  .mode-switch {
+    width: 20px;
+    height: 20px;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  .app-header-right button {
+    margin-left: 4px;
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .projects-section {
+    overflow: auto;
+  }
+
+  .app-sidebar,
+  .app-icon {
+    display: none;
+  }
+
+  .app-content {
+    padding: 16px 12px 24px 12px;
+  }
+
+  .status-number,
+  .status-type {
+    font-size: 10px;
+  }
+
+  .view-btn {
+    width: 24px;
+    height: 24px;
+  }
+
+  .app-header {
+    padding: 16px 10px;
+  }
+
+  .search-input {
+    max-width: 120px;
+  }
+
+  .project-boxes.jsGridView .project-box-wrapper {
+    width: 100%;
+  }
+
+  .projects-section {
+    padding: 24px 16px 0 16px;
+  }
+
+  .profile-btn img {
+    width: 24px;
+    height: 24px;
+  }
+
+  .app-header {
+    padding: 10px;
+  }
+
+  .projects-section-header p,
+  .projects-section-header .time {
+    font-size: 18px;
+  }
+
+  .status-type {
+    padding-right: 4px;
+
+    &:after {
+      display: none;
+    }
+  }
+
+  .search-input {
+    font-size: 14px;
+  }
+
+  .messages-btn {
+    top: 48px;
+  }
+
+  .box-content-header {
+    font-size: 24px;
+    line-height: 16px;
+  }
+
+  .box-content-subheader {
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  .project-boxes.jsListView .project-box-header > span {
+    font-size: 10px;
+  }
+
+  .box-progress-header {
+    font-size: 12px;
+  }
+
+  .box-progress-percentage {
+    font-size: 10px;
+  }
+
+  .days-left {
+    font-size: 8px;
+    padding: 6px 6px;
+    text-align: center;
+  }
+
+  .project-boxes.jsListView .project-box > * {
+    margin-right: 10px;
+  }
+
+  .project-boxes.jsListView .more-wrapper {
+    right: 2px;
+    top: 10px;
+  }
+}

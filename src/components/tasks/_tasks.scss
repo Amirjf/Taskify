@@ -1,0 +1,55 @@
+.add-task-form {
+  background-color: var(--bg-level-1);
+  padding: 10px;
+}
+
+.colors-container {
+  display: flex;
+  justify-content: space-evenly;
+  input[type="radio"],
+  input[type="checkbox"] {
+    visibility: hidden;
+    position: absolute;
+  }
+  input[type="radio"] + label:before {
+    content: " ";
+    width: 55px;
+    height: 55px;
+    margin-right: 2px;
+    display: inline-block;
+    vertical-align: baseline;
+
+    border-radius: 100%;
+    position: relative;
+    color: #fff;
+    cursor: pointer;
+    border: dashed 3px var(--text-fg);
+    color: hsl(214, 10%, 45%);
+    transition: all 0.5s ease-in-out;
+  }
+
+  #color1 + label:before {
+    background-color: #abf7cc;
+  }
+  #color2 + label:before {
+    background-color: #ff8b74;
+  }
+  #color3 + label:before {
+    background-color: #f3bf83;
+  }
+  #color4 + label:before {
+    background-color: #d5deff;
+  }
+  #color5 + label:before {
+    background-color: #bbeefb;
+  }
+
+  input[type="radio"]:checked + label:before {
+    transform: scale(1.1);
+    border: solid 5px var(--fg) !important;
+  }
+
+  input[type="radio"]:checked + .number-value {
+    color: #fff;
+  }
+}

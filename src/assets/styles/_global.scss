@@ -8,6 +8,20 @@ body {
   background-color: var(--bg);
   transition: all 0.7s;
 }
+.toggle-sidebar {
+  color: var(--fg);
+  padding: 15px;
+  position: absolute;
+  cursor: pointer;
+  left: 0;
+  top: 0;
+}
+.select-container {
+  width: 100%;
+  label {
+    color: var(--label-fg);
+  }
+}
 
 div {
   transition: background 0.7s;

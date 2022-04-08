@@ -13,9 +13,13 @@
   top: 20px;
   overflow-y: auto;
   border-radius: 40px;
-  .sidebar-logo {
+  &.hide {
+    left: -600px;
+  }
+  .sidebar-header {
     display: flex;
-    justify-content: start;
+    justify-content: end;
+
     img {
       width: 5rem;
     }
@@ -41,4 +45,10 @@
       margin-right: 13px;
     }
   }
+  // .toggle-sidebar {
+  //   position: absolute;
+  //   right: 20px;
+  //   top: 0;
+
+  // }
 }
