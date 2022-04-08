@@ -1,7 +1,7 @@
 import { collection, getDocs } from "firebase/firestore";
 import React, { useState, useEffect, useContext } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, db, GetTaskDocCollection } from "../../firebase/firebase.config";
+import { auth, db } from "../../firebase/firebase.config";
 export const TaskItemsContext = React.createContext();
 
 export const TaskItemsProvider = ({ children }) => {

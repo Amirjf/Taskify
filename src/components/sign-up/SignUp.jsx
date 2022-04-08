@@ -6,10 +6,10 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import {
   auth,
   createUserProfileDocument,
-  registerWithEmailAndPassword,
 } from "../../firebase/firebase.config";
 import { useForm } from "react-hook-form";
 import Input from "../input/Input";
+import { toast } from "react-toastify";
 
 const SignUn = () => {
   const navigate = useNavigate();
@@ -38,7 +38,7 @@ const SignUn = () => {
 
       await createUserProfileDocument(user, { displayName });
     } catch (err) {
-      console.log(err);
+      toast.error(err.message);
     }
   };
 

@@ -6,20 +6,21 @@ import CalendarColumn from "../../components/calendar/Calendar";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../firebase/firebase.config";
 import { useAuthState } from "react-firebase-hooks/auth";
+import SectionHeading from "../../components/section-heading/SectionHeading";
 
 const TasksPage = () => {
   const [user] = useAuthState(auth);
   const navigate = useNavigate();
-  useEffect(() => {
-    if (!user) {
-      navigate("/auth");
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   if (!user) {
+  //     navigate("/auth");
+  //   }
+  // }, [user]);
   return (
     <>
       <Header />
       <Sidebar />
-      <Tasks />
+      {user ? <Tasks /> : <SectionHeading title="Please Sign in first" />}
       <CalendarColumn />
     </>
   );

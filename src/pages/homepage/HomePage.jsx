@@ -16,7 +16,7 @@ const HomePage = () => {
 
   useEffect(() => {
     const getTasks = async () => {
-      const data = await GetTaskDocCollection();
+      const data = await GetTaskDocCollection(user);
       setData(data);
       user ? setLoading(true) : setLoading(false);
     };

@@ -12,11 +12,13 @@ import Button from "../button/Button";
 import { useAuthState } from "react-firebase-hooks/auth";
 import "./_tasks.scss";
 import Select from "../select/Select";
+import { AnimatePresence } from "framer-motion";
+import { toast } from "react-toastify";
 
 const Tasks = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { user } = useAuthState(auth);
+  const [user] = useAuthState(auth);
   const [showTaskForm, setShowTaskForm] = useState(false);
 
   const toggle = () => setShowTaskForm(!showTaskForm);
@@ -24,8 +26,6 @@ const Tasks = () => {
   const {
     handleSubmit,
     register,
-    control,
-    reset,
     formState: { errors },
   } = useForm();
 
@@ -35,15 +35,19 @@ const Tasks = () => {
   // };
 
   const onSubmit = (data) => {
-    CreateTaskCollection(data);
+    try {
+      CreateTaskCollection(data);
+      toggle();
+    } catch (err) {
+      toast(err);
+    }
   };
 
   useEffect(() => {
     const getTasks = async () => {
-      const data = await GetTaskDocCollection();
+      const data = await GetTaskDocCollection(user);
 
       setItems(...items, data);
-
       setLoading(true);
     };
     getTasks();
@@ -51,7 +55,7 @@ const Tasks = () => {
 
   return (
     <>
-      <Button onClick={() => toggle()} type="button">
+      <Button block onClick={() => toggle()} type="button">
         Add new Task
       </Button>
       <div className={`add-task-form shadow ${showTaskForm ? "show" : ""}`}>
@@ -83,7 +87,7 @@ const Tasks = () => {
                 value="#c8f7dc"
                 id="color1"
               />
-              <label for="color1"></label>
+              <label htmlFor="color1"></label>
               <span className="color-filled"></span>
             </div>
             <div className="radio-container">
@@ -93,7 +97,7 @@ const Tasks = () => {
                 value="#fee4cb"
                 id="color2"
               />
-              <label for="color2"></label>
+              <label htmlFor="color2"></label>
               <span className="color-filled"></span>
             </div>
             <div className="radio-container">
@@ -103,7 +107,7 @@ const Tasks = () => {
                 value="#e9e7fd"
                 id="color3"
               />
-              <label for="color3"></label>
+              <label htmlFor="color3"></label>
               <span className="color-filled"></span>
             </div>
             <div className="radio-container">
@@ -113,7 +117,7 @@ const Tasks = () => {
                 value="#d5deff"
                 id="color4"
               />
-              <label for="color4"></label>
+              <label htmlFor="color4"></label>
               <span className="color-filled"></span>
             </div>
             <div className="radio-container">
@@ -123,7 +127,7 @@ const Tasks = () => {
                 value="#dbf6fd"
                 id="color5"
               />
-              <label for="color5"></label>
+              <label htmlFor="color5"></label>
               <span className="color-filled"></span>
             </div>
           </div>
@@ -144,8 +148,10 @@ const Tasks = () => {
       <SectionHeading title="Your latest tasks : " />
 
       <div className="project-boxes">
-        {loading &&
-          items.map((item, id) => <TasksItems key={id} item={item} />)}
+        <AnimatePresence>
+          {loading &&
+            items.map((item, id) => <TasksItems key={id} item={item} />)}
+        </AnimatePresence>
       </div>
     </>
   );

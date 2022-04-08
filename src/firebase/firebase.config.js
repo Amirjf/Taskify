@@ -72,15 +72,19 @@ export const CreateTaskCollection = async (data) => {
   await batch.commit();
 };
 
-export const GetTaskDocCollection = async () => {
-  const userRef = db.collection("users").doc(auth.currentUser.uid);
-  const tasksRef = collection(userRef, "tasks");
+export const GetTaskDocCollection = async (userAuth) => {
+  const userRef = db.collection("users").doc(userAuth.uid);
+
   const tasksDoc = await getDocs(collection(userRef, "tasks"));
   const res = tasksDoc.docs.map((doc) => {
     return doc.data();
   });
 
   return res;
+};
+
+export const deleteTaskDoc = async (userAuth) => {
+  const userRef = db.collection("users").doc(userAuth.uid);
 };
 
 const logInWithEmailAndPassword = async (email, password) => {
@@ -107,7 +111,7 @@ const createUserProfileDocument = async (userAuth, additionalData) => {
         ...additionalData,
       });
     } catch (error) {
-      console.log("error", error.message);
+      toast.error(error.message);
     }
   }
   return userRef;
