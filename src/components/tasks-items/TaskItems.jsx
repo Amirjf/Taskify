@@ -31,7 +31,7 @@ const TaskItems = ({ item }) => {
       initial={{ scale: 0 }}
       animate={{ scale: 1 }}
       exit={{ scale: 0 }}
-      className="project-box-wrapper"
+      className="project-box-wrapper container-lg"
     >
       <div
         className="project-box"
@@ -58,6 +58,7 @@ const TaskItems = ({ item }) => {
         <div className="project-box-footer">
           <div className="participants">
             <button className="add-participant">
+              {/* todo : work on deleting tasks */}
               <i className="gg-trash text-danger"></i>
             </button>
           </div>

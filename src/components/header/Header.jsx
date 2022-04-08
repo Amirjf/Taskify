@@ -7,6 +7,7 @@ import ThemeSelect from "../theme-select/ThemeSelect";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase/firebase.config";
 import { db } from "../../firebase/firebase.config";
+import Button from "../button/Button";
 const Header = ({ title }) => {
   let { pathname } = useLocation();
   const [user] = useAuthState(auth);
@@ -29,10 +30,9 @@ const Header = ({ title }) => {
       />
       <div className="header-profile">
         <ThemeSelect />
-        <button>
-          <i className="gg-add"></i>
-          New Task
-        </button>
+        <Link to="/tasks">
+          <Button icon="add">New Task</Button>
+        </Link>
         <div className="avatar-container">
           <Link className="image-link-container" to={user ? "/" : "/auth"}>
             <img className="avatar" src={handleUserAvatar()} alt="avatar" />
@@ -43,7 +43,7 @@ const Header = ({ title }) => {
         </div>
         {user ? (
           <div className="logout-container" onClick={() => auth.signOut()}>
-            <i className="gg-log-out"></i>
+            <i className="gg-log-off"></i>
             <span className="dropdown">Logout</span>
           </div>
         ) : null}
