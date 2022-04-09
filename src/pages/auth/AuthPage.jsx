@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import SignIn from "../../components/signin/SignIn";
 import SignUp from "../../components/sign-up/SignUp";
 import "./_auth.scss";
-import Button from "../../components/button/Button";
-import { Link } from "react-router-dom";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Header from "../../components/header/Header";
 import CalendarColumn from "../../components/calendar/Calendar";

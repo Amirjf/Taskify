@@ -1,5 +1,7 @@
 import React from "react";
+import { auth, deleteTaskDoc } from "../../firebase/firebase.config";
 import { motion } from "framer-motion";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 import "./_taskitems.scss";
 
@@ -9,10 +11,11 @@ const statusColors = {
   notImportant: "#6c6d6d",
 };
 
-const TaskItems = ({ item }) => {
+const TaskItems = ({ item, onRemoveItem }) => {
   const { taskStatus, taskCreatedAt, taskCategory, taskTitle, taskColor } =
     item;
 
+  const [user] = useAuthState(auth);
   const handleStatusColor = () => {
     switch (taskStatus) {
       case "urgent":
@@ -28,12 +31,16 @@ const TaskItems = ({ item }) => {
 
   return (
     <motion.div
-      initial={{ scale: 0 }}
-      animate={{ scale: 1 }}
-      exit={{ scale: 0 }}
+      initial={{ opacity: 0, scale: 0 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0 }}
       className="project-box-wrapper container-lg"
     >
-      <div
+      <motion.div
+        initial={{ opacity: 0, scale: 0 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0 }}
+        layout
         className="project-box"
         style={{ background: taskColor ? taskColor : "#c8f7dc" }}
       >
@@ -57,8 +64,10 @@ const TaskItems = ({ item }) => {
 
         <div className="project-box-footer">
           <div className="participants">
-            <button className="add-participant">
-              {/* todo : work on deleting tasks */}
+            <button
+              className="add-participant"
+              onClick={() => onRemoveItem(item)}
+            >
               <i className="gg-trash text-danger"></i>
             </button>
           </div>
@@ -66,7 +75,7 @@ const TaskItems = ({ item }) => {
             <i className="gg-pen text-warning"></i>
           </button>
         </div>
-      </div>
+      </motion.div>
     </motion.div>
   );
 };

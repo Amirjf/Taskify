@@ -19,7 +19,7 @@ const SignUn = () => {
     formState: { errors },
   } = useForm();
 
-  const [user, loading, error] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth);
 
   useEffect(() => {
     if (loading) return;

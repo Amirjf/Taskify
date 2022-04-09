@@ -1,4 +1,3 @@
-import { collection, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import CalendarColumn from "../../components/calendar/Calendar";
@@ -7,7 +6,7 @@ import Header from "../../components/header/Header";
 import SectionHeading from "../../components/section-heading/SectionHeading";
 import Sidebar from "../../components/sidebar/Sidebar";
 import TaskItems from "../../components/tasks-items/TaskItems";
-import { auth, db, GetTaskDocCollection } from "../../firebase/firebase.config";
+import { auth, GetTaskDocCollection } from "../../firebase/firebase.config";
 
 const HomePage = () => {
   const [user] = useAuthState(auth);

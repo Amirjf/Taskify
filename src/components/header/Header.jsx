@@ -1,17 +1,15 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./header.styles.scss";
 import SectionHeading from "../section-heading/SectionHeading";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { logout } from "../../firebase/firebase.config";
+import { Link, useLocation } from "react-router-dom";
 import ThemeSelect from "../theme-select/ThemeSelect";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase/firebase.config";
-import { db } from "../../firebase/firebase.config";
+
 import Button from "../button/Button";
-const Header = ({ title }) => {
+const Header = () => {
   let { pathname } = useLocation();
   const [user] = useAuthState(auth);
-  const navigate = useNavigate();
 
   const handleUserAvatar = () => {
     if (user === null) {

@@ -6,13 +6,14 @@ import { useForm } from "react-hook-form";
 import {
   auth,
   CreateTaskCollection,
+  deleteTaskDoc,
   GetTaskDocCollection,
 } from "../../firebase/firebase.config";
 import Button from "../button/Button";
 import { useAuthState } from "react-firebase-hooks/auth";
 import "./_tasks.scss";
 import Select from "../select/Select";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { toast } from "react-toastify";
 
 const Tasks = () => {
@@ -29,10 +30,11 @@ const Tasks = () => {
     formState: { errors },
   } = useForm();
 
-  // const removeItem = (remove) => {
-  //   const filteredItems = items.filter((e) => e !== remove);
-  //   setItems(filteredItems);
-  // };
+  const removeItem = (remove) => {
+    deleteTaskDoc(user, remove);
+    const filteredItems = items.filter((e) => e !== remove);
+    setItems(filteredItems);
+  };
 
   const onSubmit = (data) => {
     try {
@@ -147,14 +149,34 @@ const Tasks = () => {
 
       <SectionHeading title="Your latest tasks : " />
 
-      <div className="project-boxes">
-        <AnimatePresence>
-          {loading &&
-            items.map((item, id) => <TasksItems key={id} item={item} />)}
-        </AnimatePresence>
-      </div>
+      {items.length === 0 ? (
+        <>
+          <SectionHeading
+            center
+            textColor="#ffc149"
+            title="You dont have any tasks yet ! "
+          />
+          <SectionHeading
+            center
+            textColor="#ffc149"
+            title="Maybe start adding some ?  "
+          />
+        </>
+      ) : (
+        <motion.div className="project-boxes">
+          <AnimatePresence>
+            {loading &&
+              items.map((item) => (
+                <TasksItems
+                  key={item.taskId}
+                  onRemoveItem={removeItem}
+                  item={item}
+                />
+              ))}
+          </AnimatePresence>
+        </motion.div>
+      )}
     </>
   );
 };
 export default Tasks;
-// items={items} onRemoveItem={removeItem

@@ -1,18 +1,14 @@
-// Import the functions you need from the SDKs you need
-
 import "firebase/compat/firestore";
 import "firebase/compat/auth";
 import firebase from "firebase/compat/app";
-import { collection, addDoc, getDocs } from "firebase/firestore";
+import { collection, getDoc, getDocs, deleteDoc } from "firebase/firestore";
 import {
   signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
   sendPasswordResetEmail,
   signOut,
 } from "firebase/auth";
 
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 
 const firebaseConfig = {
   apiKey: "AIzaSyC964LJ6JsnmBWpxowctCf4MTj3GydDMGc",
@@ -61,7 +57,10 @@ export const CreateTaskCollection = async (data) => {
     .collection("tasks")
     .doc();
   const date = new Date().toDateString();
+  const randomId = Math.floor(Math.random() * Date.now());
+
   batch.set(subCollectionDocRef, {
+    taskId: randomId,
     taskTitle: task,
     taskStatus: status,
     taskCategory: taskCategory,
@@ -83,8 +82,26 @@ export const GetTaskDocCollection = async (userAuth) => {
   return res;
 };
 
-export const deleteTaskDoc = async (userAuth) => {
-  const userRef = db.collection("users").doc(userAuth.uid);
+//todo
+export const deleteTaskDoc = (userAuth, task) => {
+  // const res = await db
+  //   .collection("users")
+  //   .doc(userAuth.uid)
+  //   .collection("tasks")
+  //   .doc();
+  console.log(userAuth);
+
+  db.collection("users")
+    .doc(userAuth.uid)
+    .collection("tasks")
+    .where("taskId", "==", task.taskId)
+    .get()
+    .then((querySnapshot) => {
+      // querySnapshot.docs[0].ref.delete();
+      console.log(querySnapshot.docs[0].ref.delete());
+    });
+
+  // const res = await deleteDoc(taskRef);
 };
 
 const logInWithEmailAndPassword = async (email, password) => {

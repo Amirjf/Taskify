@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { FullScreenContext } from "../context/FullScreenContext";
+import { FullScreenContext } from "../../context/FullScreenContext";
 
 const ToggleSidebar = () => {
   const { isFullScreen, toggle } = useContext(FullScreenContext);

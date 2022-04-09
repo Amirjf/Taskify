@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { FullScreenContext } from "../context/FullScreenContext";
+import { FullScreenContext } from "../../context/FullScreenContext";
 import { motion } from "framer-motion";
 import { Link, NavLink } from "react-router-dom";
 import Logo from "../../assets/images/mylogo.png";

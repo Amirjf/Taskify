@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { FullScreenContext } from "../context/FullScreenContext";
+import { FullScreenContext } from "../../context/FullScreenContext";
 
 import "./_main.scss";
 const MainContent = ({ children }) => {

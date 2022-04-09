@@ -1,7 +1,6 @@
-import React, { useState } from "react";
-import { useSetTheme, useTheme } from "../context/ThemeContext";
+import React from "react";
+import { useSetTheme, useTheme } from "../../context/ThemeContext";
 import "./_theme_select.scss";
-import { motion } from "framer-motion";
 const ThemeSelect = () => {
   const setTheme = useSetTheme();
   const { themeMode } = useTheme();

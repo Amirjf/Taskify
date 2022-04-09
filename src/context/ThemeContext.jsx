@@ -20,7 +20,7 @@ export const ThemeProvider = ({ children }) => {
 
     window.localStorage.setItem("theme", themeMode);
     return () => document.body.removeAttribute("theme");
-  }, [themeMode]);
+  }, [theme, themeMode]);
 
   useEffect(() => {
     const syncTheme = (e) => {
