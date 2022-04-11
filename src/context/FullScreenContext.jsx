@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, createContext } from "react";
 
-export const FullScreenContext = React.createContext(false);
-export const SetFullScreenContext = React.createContext(null);
+export const FullScreenContext = createContext({
+  isFullScreen: false,
+  setIsFullScreen: () => null,
+});
 
 export const FullScreenProvider = ({ children }) => {
-  const [isFullScreen, setIsFullscreen] = useState(false);
-  const toggle = () => setIsFullscreen(!isFullScreen);
+  const [isFullScreen, setIsFullScreen] = useState(false);
+  // const toggle = () => setIsFullscreen(!isFullScreen);
+  const value = { isFullScreen, setIsFullScreen };
 
   return (
-    <FullScreenContext.Provider value={{ isFullScreen, toggle }}>
+    <FullScreenContext.Provider value={value}>
       {children}
     </FullScreenContext.Provider>
   );

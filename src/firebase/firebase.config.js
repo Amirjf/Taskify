@@ -1,11 +1,24 @@
 import "firebase/compat/firestore";
 import "firebase/compat/auth";
 import firebase from "firebase/compat/app";
-import { collection, getDoc, getDocs, deleteDoc } from "firebase/firestore";
+import {
+  collection,
+  getDoc,
+  getDocs,
+  deleteDoc,
+  getFirestore,
+  doc,
+  setDoc,
+  writeBatch,
+} from "firebase/firestore";
 import {
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
   signOut,
+  signInWithRedirect,
+  signInWithPopup,
+  getAuth,
+  GoogleAuthProvider,
 } from "firebase/auth";
 
 import { toast } from "react-toastify";
@@ -22,86 +35,27 @@ const firebaseConfig = {
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
+const auth = getAuth();
 const db = firebase.firestore();
+const db2 = getFirestore();
 
-const provider = new firebase.auth.GoogleAuthProvider();
-provider.setCustomParameters({ prompt: "select_account" });
+const googleProvider = new GoogleAuthProvider();
+
+googleProvider.setCustomParameters({
+  prompt: "select_account",
+});
 const signInWithGoogle = async () => {
-  try {
-    const res = await auth.signInWithPopup(provider);
-    const user = res.user;
-    const userRef = db.doc(`users/${user.uid}`);
-    const snapShot = await userRef.get();
-    const { displayName, email } = user;
-    if (!snapShot.exists) {
-      const createdAt = new Date();
-      await userRef.set({
-        displayName,
-        email,
-        createdAt,
-      });
-    }
-  } catch (error) {
-    console.log("error", error.message);
-  }
-};
-
-export const CreateTaskCollection = async (data) => {
-  let batch = db.batch();
-  const { taskColor, taskStatus, taskTitle, taskCategory } = data;
-
-  const subCollectionDocRef = db
-    .collection("users")
-    .doc(auth.currentUser.uid)
-    .collection("tasks")
-    .doc();
-  const date = new Date().toDateString();
-  const randomId = Math.floor(Math.random() * Date.now());
-
-  batch.set(subCollectionDocRef, {
-    taskId: randomId,
-    taskTitle: taskTitle,
-    taskStatus: taskStatus,
-    taskCategory: taskCategory,
-    taskCreatedAt: date,
-    taskColor: taskColor,
-  });
-
-  await batch.commit();
+  signInWithPopup(auth, googleProvider);
 };
 
 export const GetTaskDocCollection = async (userAuth) => {
-  const userRef = db.collection("users").doc(userAuth.uid);
-
+  const userRef = doc(db2, "users", userAuth.uid);
   const tasksDoc = await getDocs(collection(userRef, "tasks"));
   const res = tasksDoc.docs.map((doc) => {
     return doc.data();
   });
 
   return res;
-};
-
-//todo
-export const deleteTaskDoc = (userAuth, task) => {
-  // const res = await db
-  //   .collection("users")
-  //   .doc(userAuth.uid)
-  //   .collection("tasks")
-  //   .doc();
-  console.log(userAuth);
-
-  db.collection("users")
-    .doc(userAuth.uid)
-    .collection("tasks")
-    .where("taskId", "==", task.taskId)
-    .get()
-    .then((querySnapshot) => {
-      // querySnapshot.docs[0].ref.delete();
-      console.log(querySnapshot.docs[0].ref.delete());
-    });
-
-  // const res = await deleteDoc(taskRef);
 };
 
 const logInWithEmailAndPassword = async (email, password) => {
@@ -112,16 +66,16 @@ const logInWithEmailAndPassword = async (email, password) => {
   }
 };
 
-const createUserProfileDocument = async (userAuth, additionalData) => {
+const createUserProfileDocument = async (userAuth, additionalData = {}) => {
   if (!userAuth) return;
 
-  const userRef = db.doc(`users/${userAuth.uid}`);
-  const snapShot = await userRef.get();
-  if (!snapShot.exists) {
+  const userDocRef = doc(db2, "users", userAuth.uid);
+  const userSnapshot = await getDoc(userDocRef);
+  if (!userSnapshot.exists()) {
     const { displayName, email } = userAuth;
     const createdAt = new Date();
     try {
-      await userRef.set({
+      await setDoc(userDocRef, {
         displayName,
         email,
         createdAt,
@@ -131,21 +85,41 @@ const createUserProfileDocument = async (userAuth, additionalData) => {
       toast.error(error.message);
     }
   }
-  return userRef;
 };
 
-const sendPasswordReset = async (email) => {
-  try {
-    await sendPasswordResetEmail(auth, email);
-    alert("Password reset link sent!");
-  } catch (err) {
-    console.error(err);
-    alert(err.message);
-  }
+const logout = async () => {
+  await signOut(auth);
 };
 
-const logout = () => {
-  signOut(auth);
+export const CreateTaskCollection = async (data) => {
+  const { taskTitle, taskStatus, taskCategory, taskColor } = data;
+  const batch = writeBatch(db2);
+  const userRef = doc(db2, "users", auth.currentUser.uid);
+  const taskRef = doc(collection(userRef, "tasks"));
+  const date = new Date().toDateString();
+  const randomId = Math.floor(Math.random() * Date.now());
+  batch.set(taskRef, {
+    taskId: randomId,
+    taskTitle: taskTitle,
+    taskStatus: taskStatus,
+    taskCategory: taskCategory,
+    taskCreatedAt: date,
+    taskColor: taskColor,
+    isTaskCompleted: false,
+  });
+
+  await batch.commit();
+};
+
+export const deleteTaskDoc = (userAuth, task) => {
+  db.collection("users")
+    .doc(userAuth.uid)
+    .collection("tasks")
+    .where("taskId", "==", task.taskId)
+    .get()
+    .then((querySnapshot) => {
+      querySnapshot.docs[0].ref.delete();
+    });
 };
 
 export {
@@ -154,6 +128,5 @@ export {
   logInWithEmailAndPassword,
   createUserProfileDocument,
   signInWithGoogle,
-  sendPasswordReset,
   logout,
 };

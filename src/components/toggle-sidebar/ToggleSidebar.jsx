@@ -2,11 +2,14 @@ import React, { useContext } from "react";
 import { FullScreenContext } from "../../context/FullScreenContext";
 
 const ToggleSidebar = () => {
-  const { isFullScreen, toggle } = useContext(FullScreenContext);
+  const { isFullScreen, setIsFullScreen } = useContext(FullScreenContext);
   return (
     <>
       {isFullScreen && (
-        <div className="toggle-sidebar" onClick={toggle}>
+        <div
+          className="toggle-sidebar"
+          onClick={() => setIsFullScreen(!isFullScreen)}
+        >
           <i className="gg-menu-round"></i>
         </div>
       )}

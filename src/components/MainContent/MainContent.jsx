@@ -4,6 +4,7 @@ import { FullScreenContext } from "../../context/FullScreenContext";
 import "./_main.scss";
 const MainContent = ({ children }) => {
   const { isFullScreen } = useContext(FullScreenContext);
+
   return (
     <section className={`main-content ${isFullScreen ? "full" : ""}`}>
       <div className="container-fluid no-gutters">

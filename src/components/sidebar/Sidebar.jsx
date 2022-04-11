@@ -6,12 +6,15 @@ import Logo from "../../assets/images/mylogo.png";
 import "./_sidebar.scss";
 
 const Sidebar = () => {
-  const { isFullScreen, toggle } = useContext(FullScreenContext);
+  const { isFullScreen, setIsFullScreen } = useContext(FullScreenContext);
   return (
     <>
       <motion.div layout className={`sidebar ${isFullScreen ? "hide" : ""}`}>
         <div className="sidebar-header">
-          <div className="toggle-sidebar" onClick={toggle}>
+          <div
+            className="toggle-sidebar"
+            onClick={() => setIsFullScreen(!isFullScreen)}
+          >
             <i className="gg-menu-round"></i>
           </div>
           <Link to="/">
