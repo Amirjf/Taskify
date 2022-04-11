@@ -49,7 +49,7 @@ const signInWithGoogle = async () => {
 
 export const CreateTaskCollection = async (data) => {
   let batch = db.batch();
-  const { color, status, task, taskCategory } = data;
+  const { taskColor, taskStatus, taskTitle, taskCategory } = data;
 
   const subCollectionDocRef = db
     .collection("users")
@@ -61,11 +61,11 @@ export const CreateTaskCollection = async (data) => {
 
   batch.set(subCollectionDocRef, {
     taskId: randomId,
-    taskTitle: task,
-    taskStatus: status,
+    taskTitle: taskTitle,
+    taskStatus: taskStatus,
     taskCategory: taskCategory,
     taskCreatedAt: date,
-    taskColor: color,
+    taskColor: taskColor,
   });
 
   await batch.commit();

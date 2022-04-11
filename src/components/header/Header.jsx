@@ -28,9 +28,13 @@ const Header = () => {
       />
       <div className="header-profile">
         <ThemeSelect />
+
         <Link to="/tasks">
-          <Button icon="add">New Task</Button>
+          <Button className="new-task-btn" icon="add">
+            New Task
+          </Button>
         </Link>
+
         <div className="avatar-container">
           <Link className="image-link-container" to={user ? "/" : "/auth"}>
             <img className="avatar" src={handleUserAvatar()} alt="avatar" />

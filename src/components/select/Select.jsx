@@ -1,11 +1,18 @@
 import React from "react";
 const Select = React.forwardRef(
-  ({ onChange, onBlur, name, label, children }, ref) => (
+  (
+    { name, label, errors, options, required, children, ...otherProps },
+    ref
+  ) => (
     <>
       <div className="select-container">
         <label>{label}</label>
-        <select name={name} ref={ref} onChange={onChange} onBlur={onBlur}>
-          {children}
+        <select name={name} ref={ref} {...otherProps}>
+          {options.map((item) => (
+            <option key={item.value} value={item.value}>
+              {item.label}
+            </option>
+          ))}
         </select>
       </div>
     </>

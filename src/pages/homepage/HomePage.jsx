@@ -6,7 +6,11 @@ import Header from "../../components/header/Header";
 import SectionHeading from "../../components/section-heading/SectionHeading";
 import Sidebar from "../../components/sidebar/Sidebar";
 import TaskItems from "../../components/tasks-items/TaskItems";
-import { auth, GetTaskDocCollection } from "../../firebase/firebase.config";
+import {
+  auth,
+  deleteTaskDoc,
+  GetTaskDocCollection,
+} from "../../firebase/firebase.config";
 
 const HomePage = () => {
   const [user] = useAuthState(auth);
@@ -22,13 +26,21 @@ const HomePage = () => {
     getTasks();
   }, [user, loading]);
 
+  const removeItem = (itemToRemove) => {
+    deleteTaskDoc(user, itemToRemove);
+    const filteredItems = data.filter((e) => e !== itemToRemove);
+    setData(filteredItems);
+  };
+
   return (
     <>
       <Sidebar />
       <Header />
       <div className="project-boxes">
         {user && loading ? (
-          data.map((item, id) => <TaskItems key={id} item={item} />)
+          data.map((item) => (
+            <TaskItems onRemoveItem={removeItem} key={item.id} item={item} />
+          ))
         ) : user ? (
           <Loading />
         ) : (

@@ -59,14 +59,17 @@ const SignIn = () => {
           placeholder="type a password"
         />
         <div className="sign-in-button-container">
-          <Button type="submit" block>
-            Sign in
+          <Button type="submit">Sign in</Button>
+          <Button
+            type="button"
+            icon="google"
+            isGoogle
+            onClick={signInWithGoogle}
+          >
+            Sign in with Google
           </Button>
         </div>
       </form>
-      <Button block icon="google" isGoogle onClick={signInWithGoogle}>
-        Sign in with Google
-      </Button>
     </div>
   );
 };

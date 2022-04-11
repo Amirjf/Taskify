@@ -15,25 +15,49 @@ import "./_tasks.scss";
 import Select from "../select/Select";
 import { AnimatePresence, motion } from "framer-motion";
 import { toast } from "react-toastify";
+import Loading from "../loading/Loading";
 
 const Tasks = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const [user] = useAuthState(auth);
   const [showTaskForm, setShowTaskForm] = useState(false);
 
-  const toggle = () => setShowTaskForm(!showTaskForm);
+  const toggle = () => {
+    setShowTaskForm(!showTaskForm);
+  };
 
   const {
     handleSubmit,
     register,
-    formState: { errors },
-  } = useForm();
+    getValues,
+    reset,
+    setValue,
+    formState: { errors, isSubmitted },
+  } = useForm({
+    defaultValues: {
+      taskTitle: "",
+      taskCategory: "",
+      taskColor: "",
+      taskStatus: "",
+    },
+  });
 
-  const removeItem = (remove) => {
-    deleteTaskDoc(user, remove);
-    const filteredItems = items.filter((e) => e !== remove);
+  const removeItem = (itemToRemove) => {
+    deleteTaskDoc(user, itemToRemove);
+    const filteredItems = items.filter((e) => e !== itemToRemove);
     setItems(filteredItems);
+  };
+
+  const editItem = (itemToEdit) => {
+    toggle();
+    setIsEditing(!isEditing);
+    for (var key in itemToEdit) {
+      if (itemToEdit.hasOwnProperty(key)) {
+        setValue(`${key}`, itemToEdit[key]);
+      }
+    }
   };
 
   const onSubmit = (data) => {
@@ -41,33 +65,43 @@ const Tasks = () => {
       CreateTaskCollection(data);
       toggle();
     } catch (err) {
-      toast(err);
+      toast.error(err);
     }
   };
 
   useEffect(() => {
     const getTasks = async () => {
       const data = await GetTaskDocCollection(user);
-
-      setItems(...items, data);
       setLoading(true);
+      setItems(...items, data);
     };
     getTasks();
   }, [user]);
 
   return (
     <>
-      <Button block onClick={() => toggle()} type="button">
+      <Button
+        block
+        onClick={() => {
+          toggle();
+        }}
+        type="button"
+      >
         Add new Task
       </Button>
       <div className={`add-task-form shadow ${showTaskForm ? "show" : ""}`}>
-        <div className="close-form" onClick={() => toggle()}>
+        <div
+          className="close-form"
+          onClick={() => {
+            toggle();
+          }}
+        >
           <i className="gg-close"></i>
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Input
             label="Task Title"
-            registerLabel="task"
+            registerLabel="taskTitle"
             errors={errors}
             register={register}
             required
@@ -84,7 +118,7 @@ const Tasks = () => {
           <div className="colors-container">
             <div className="radio-container">
               <input
-                {...register("color")}
+                {...register("taskColor")}
                 type="radio"
                 value="#c8f7dc"
                 id="color1"
@@ -94,7 +128,7 @@ const Tasks = () => {
             </div>
             <div className="radio-container">
               <input
-                {...register("color")}
+                {...register("taskColor")}
                 type="radio"
                 value="#fee4cb"
                 id="color2"
@@ -104,7 +138,7 @@ const Tasks = () => {
             </div>
             <div className="radio-container">
               <input
-                {...register("color")}
+                {...register("taskColor")}
                 type="radio"
                 value="#e9e7fd"
                 id="color3"
@@ -114,7 +148,7 @@ const Tasks = () => {
             </div>
             <div className="radio-container">
               <input
-                {...register("color")}
+                {...register("taskColor")}
                 type="radio"
                 value="#d5deff"
                 id="color4"
@@ -124,7 +158,7 @@ const Tasks = () => {
             </div>
             <div className="radio-container">
               <input
-                {...register("color")}
+                {...register("taskColor")}
                 type="radio"
                 value="#dbf6fd"
                 id="color5"
@@ -135,15 +169,20 @@ const Tasks = () => {
           </div>
           <Select
             label="Status"
-            registerLabel="status"
-            {...register("status")}
+            {...register("taskStatus")}
             required
-          >
-            <option value="urgent">Urgent</option>
-            <option value="working">Working on it</option>
-            <option value="notImportant">Not very important</option>
-          </Select>
-          <Button icon="add">ADD</Button>
+            options={[
+              { value: "urgent", label: "Urgent" },
+              { value: "working", label: "Working" },
+              { value: "notImportant", label: "Not very important" },
+            ]}
+          />
+
+          {isEditing ? (
+            <Button icon="add">Edit TASK</Button>
+          ) : (
+            <Button icon="add">Add Task</Button>
+          )}
         </form>
       </div>
 
@@ -165,14 +204,18 @@ const Tasks = () => {
       ) : (
         <motion.div className="project-boxes">
           <AnimatePresence>
-            {loading &&
+            {loading ? (
               items.map((item) => (
                 <TasksItems
                   key={item.taskId}
+                  onEditItem={editItem}
                   onRemoveItem={removeItem}
                   item={item}
                 />
-              ))}
+              ))
+            ) : (
+              <Loading />
+            )}
           </AnimatePresence>
         </motion.div>
       )}

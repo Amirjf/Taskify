@@ -11,7 +11,7 @@ const statusColors = {
   notImportant: "#6c6d6d",
 };
 
-const TaskItems = ({ item, onRemoveItem }) => {
+const TaskItems = ({ item, onRemoveItem, onEditItem }) => {
   const { taskStatus, taskCreatedAt, taskCategory, taskTitle, taskColor } =
     item;
 
@@ -71,7 +71,7 @@ const TaskItems = ({ item, onRemoveItem }) => {
               <i className="gg-trash text-danger"></i>
             </button>
           </div>
-          <button className="add-participant">
+          <button className="add-participant" onClick={() => onEditItem(item)}>
             <i className="gg-pen text-warning"></i>
           </button>
         </div>
