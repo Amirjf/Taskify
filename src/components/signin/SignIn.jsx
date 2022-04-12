@@ -22,6 +22,10 @@ const SignIn = () => {
 
   const navigate = useNavigate();
 
+  const signInGoogle = async () => {
+    await signInWithGoogle();
+  };
+
   useEffect(() => {
     if (loading) {
       <h1 className="texh-white">Loading ...</h1>;
@@ -60,12 +64,7 @@ const SignIn = () => {
         />
         <div className="sign-in-button-container">
           <Button type="submit">Sign in</Button>
-          <Button
-            type="button"
-            icon="google"
-            isGoogle
-            onClick={signInWithGoogle}
-          >
+          <Button type="button" icon="google" isGoogle onClick={signInGoogle}>
             Sign in with Google
           </Button>
         </div>

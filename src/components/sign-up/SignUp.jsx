@@ -10,7 +10,7 @@ import {
 import { useForm } from "react-hook-form";
 import Input from "../input/Input";
 import { toast } from "react-toastify";
-import { createAuthUserWithEmailAndPassword } from "../../firebase/firebase.auth";
+import { createAuthUserWithEmailAndPassword } from "../../firebase/firebase.config";
 
 const SignUn = () => {
   const navigate = useNavigate();
@@ -37,7 +37,6 @@ const SignUn = () => {
       // );
       // await createUserProfileDocument(user, { displayName });
       await createAuthUserWithEmailAndPassword(email, password);
-      createAuthUserWithEmailAndPassword(email, password);
     } catch (err) {
       toast.error(err.message);
     }

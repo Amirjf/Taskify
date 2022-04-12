@@ -1,7 +1,5 @@
 import React from "react";
-import { auth, deleteTaskDoc } from "../../firebase/firebase.config";
 import { motion } from "framer-motion";
-import { useAuthState } from "react-firebase-hooks/auth";
 
 import "./_taskitems.scss";
 
@@ -11,11 +9,10 @@ const statusColors = {
   notImportant: "#6c6d6d",
 };
 
-const TaskItems = ({ item, onRemoveItem, onEditItem }) => {
+const TaskItems = ({ item, onRemoveItem, onTaskCompleted }) => {
   const { taskStatus, taskCreatedAt, taskCategory, taskTitle, taskColor } =
     item;
 
-  const [user] = useAuthState(auth);
   const handleStatusColor = () => {
     switch (taskStatus) {
       case "urgent":
@@ -47,7 +44,10 @@ const TaskItems = ({ item, onRemoveItem, onEditItem }) => {
         <div className="project-box-header">
           <span>{taskCreatedAt}</span>
           <div className="more-wrapper">
-            <button className="add-participant">
+            <button
+              className="add-participant"
+              onClick={() => onTaskCompleted(item)}
+            >
               <i className="gg-check text-success"></i>
             </button>
           </div>
@@ -71,7 +71,7 @@ const TaskItems = ({ item, onRemoveItem, onEditItem }) => {
               <i className="gg-trash text-danger"></i>
             </button>
           </div>
-          <button className="add-participant" onClick={() => onEditItem(item)}>
+          <button className="add-participant">
             <i className="gg-pen text-warning"></i>
           </button>
         </div>

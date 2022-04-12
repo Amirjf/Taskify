@@ -1,40 +1,37 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import SectionHeading from "../section-heading/SectionHeading";
 import TasksItems from "../tasks-items/TaskItems";
 import Input from "../input/Input";
 import { useForm } from "react-hook-form";
 import {
-  auth,
   CreateTaskCollection,
   deleteTaskDoc,
   GetTaskDocCollection,
-} from "../../firebase/firebase.config";
+  setTaskCompleted,
+} from "../../firebase/firebase.utils";
 import Button from "../button/Button";
-import { useAuthState } from "react-firebase-hooks/auth";
 import "./_tasks.scss";
 import Select from "../select/Select";
 import { AnimatePresence, motion } from "framer-motion";
 import { toast } from "react-toastify";
 import Loading from "../loading/Loading";
+import { UserContext } from "../../context/UserContext";
+import { useTasksContext } from "../../context/TasksContext";
+import { db2 } from "../../firebase/firebase.config";
+import { collection, doc, getDocs } from "firebase/firestore";
 
 const Tasks = () => {
-  const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [user] = useAuthState(auth);
   const [showTaskForm, setShowTaskForm] = useState(false);
+  const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const toggle = () => {
-    setShowTaskForm(!showTaskForm);
-  };
+  const user = localStorage.getItem("user");
+  const currentUser = JSON.parse(user);
 
   const {
     handleSubmit,
     register,
-    getValues,
-    reset,
-    setValue,
-    formState: { errors, isSubmitted },
+    formState: { errors, isSubmitted, isSubmitSuccessful },
   } = useForm({
     defaultValues: {
       taskTitle: "",
@@ -44,39 +41,55 @@ const Tasks = () => {
     },
   });
 
-  const removeItem = (itemToRemove) => {
-    deleteTaskDoc(user, itemToRemove);
-    const filteredItems = items.filter((e) => e !== itemToRemove);
-    setItems(filteredItems);
+  const taskCompleted = async (item) => {
+    item["isTaskCompleted"] = true;
+
+    await setTaskCompleted(currentUser, item);
+    const filteredData = tasks
+      .filter((task) => task.isTaskCompleted === false)
+      .map((task) => task);
+
+    setTasks(filteredData);
   };
 
-  const editItem = (itemToEdit) => {
-    toggle();
-    setIsEditing(!isEditing);
-    for (var key in itemToEdit) {
-      if (itemToEdit.hasOwnProperty(key)) {
-        setValue(`${key}`, itemToEdit[key]);
-      }
-    }
-  };
-
-  const onSubmit = (data) => {
-    try {
-      CreateTaskCollection(data);
-      toggle();
-    } catch (err) {
-      toast.error(err);
-    }
+  const removeItem = (taskToRemove) => {
+    deleteTaskDoc(currentUser, taskToRemove);
+    const filtered = tasks.filter((e) => e !== taskToRemove);
+    setTasks(filtered);
   };
 
   useEffect(() => {
-    const getTasks = async () => {
-      const data = await GetTaskDocCollection(user);
-      setLoading(true);
-      setItems(...items, data);
+    const getData = async () => {
+      try {
+        const userRef = doc(db2, "users", currentUser.uid);
+        const tasksDoc = await getDocs(collection(userRef, "tasks"));
+        const data = tasksDoc.docs.map((doc) => {
+          return doc.data();
+        });
+
+        data ? setLoading(true) : setLoading(false);
+
+        const filteredData = data
+          .filter((task) => task.isTaskCompleted === false)
+          .map((task) => task);
+
+        setTasks(filteredData);
+      } catch (err) {
+        console.log(err);
+      }
     };
-    getTasks();
-  }, [user]);
+    getData();
+  }, [loading]);
+
+  const onSubmit = (data) => {
+    CreateTaskCollection(data);
+    toggle();
+    // setItems((prevState) => [...prevState, data]);
+  };
+
+  const toggle = () => {
+    setShowTaskForm(!showTaskForm);
+  };
 
   return (
     <>
@@ -178,17 +191,13 @@ const Tasks = () => {
             ]}
           />
 
-          {isEditing ? (
-            <Button icon="add">Edit TASK</Button>
-          ) : (
-            <Button icon="add">Add Task</Button>
-          )}
+          <Button icon="add">Add Task</Button>
         </form>
       </div>
 
       <SectionHeading title="Your latest tasks : " />
 
-      {items.length === 0 ? (
+      {tasks.length === 0 && loading == true ? (
         <>
           <SectionHeading
             center
@@ -205,10 +214,10 @@ const Tasks = () => {
         <motion.div className="project-boxes">
           <AnimatePresence>
             {loading ? (
-              items.map((item) => (
+              tasks.map((item) => (
                 <TasksItems
                   key={item.taskId}
-                  onEditItem={editItem}
+                  onTaskCompleted={taskCompleted}
                   onRemoveItem={removeItem}
                   item={item}
                 />

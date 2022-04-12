@@ -12,6 +12,52 @@
   &.hide {
     right: -600px;
   }
+
+  .completed-tasks-header {
+    margin: 20px auto;
+    color: var(--calendar-text);
+  }
+
+  .completed-tasks-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 14px auto;
+    padding: 7px 7px;
+    align-items: center;
+    border-radius: 19px;
+    .task-info {
+      display: flex;
+      align-items: center;
+      .undo-icon-container {
+        position: relative;
+        border-radius: 100%;
+        width: 50px;
+        height: 50px;
+        background: var(--bg);
+        i {
+          position: absolute;
+          font-size: 1.9em;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          color: var(--fg);
+        }
+      }
+      .task-completed-title,
+      .task-completed-category {
+        text-decoration: line-through;
+        color: #757575;
+        padding-left: 10px;
+      }
+      .task-completed-title {
+        font-size: 1.1em;
+      }
+      .task-completed-category {
+        font-size: 0.85em;
+      }
+    }
+  }
 }
 
 .react-calendar {
@@ -37,17 +83,8 @@ abbr[title] {
   cursor: auto !important;
 }
 
-.react-calendar__navigation__prev2-button {
+.react-calendar__navigation {
   display: none !important;
-}
-
-.react-calendar__navigation__next2-button {
-  display: none !important;
-}
-
-.react-calendar__navigation__label {
-  font-size: 20px !important;
-  color: var(--calendar-text);
 }
 
 .react-calendar__month-view__days__day--neighboringMonth {

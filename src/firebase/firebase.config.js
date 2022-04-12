@@ -19,6 +19,8 @@ import {
   signInWithPopup,
   getAuth,
   GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
 } from "firebase/auth";
 
 import { toast } from "react-toastify";
@@ -37,7 +39,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const auth = getAuth();
 const db = firebase.firestore();
-const db2 = getFirestore();
+export const db2 = getFirestore();
 
 const googleProvider = new GoogleAuthProvider();
 
@@ -46,16 +48,6 @@ googleProvider.setCustomParameters({
 });
 const signInWithGoogle = async () => {
   signInWithPopup(auth, googleProvider);
-};
-
-export const GetTaskDocCollection = async (userAuth) => {
-  const userRef = doc(db2, "users", userAuth.uid);
-  const tasksDoc = await getDocs(collection(userRef, "tasks"));
-  const res = tasksDoc.docs.map((doc) => {
-    return doc.data();
-  });
-
-  return res;
 };
 
 const logInWithEmailAndPassword = async (email, password) => {
@@ -91,36 +83,14 @@ const logout = async () => {
   await signOut(auth);
 };
 
-export const CreateTaskCollection = async (data) => {
-  const { taskTitle, taskStatus, taskCategory, taskColor } = data;
-  const batch = writeBatch(db2);
-  const userRef = doc(db2, "users", auth.currentUser.uid);
-  const taskRef = doc(collection(userRef, "tasks"));
-  const date = new Date().toDateString();
-  const randomId = Math.floor(Math.random() * Date.now());
-  batch.set(taskRef, {
-    taskId: randomId,
-    taskTitle: taskTitle,
-    taskStatus: taskStatus,
-    taskCategory: taskCategory,
-    taskCreatedAt: date,
-    taskColor: taskColor,
-    isTaskCompleted: false,
-  });
+export const createAuthUserWithEmailAndPassword = async (email, password) => {
+  if (!email || !password) return;
 
-  await batch.commit();
+  return await createUserWithEmailAndPassword(auth, email, password);
 };
 
-export const deleteTaskDoc = (userAuth, task) => {
-  db.collection("users")
-    .doc(userAuth.uid)
-    .collection("tasks")
-    .where("taskId", "==", task.taskId)
-    .get()
-    .then((querySnapshot) => {
-      querySnapshot.docs[0].ref.delete();
-    });
-};
+export const onAuthStateChangedListener = (callback) =>
+  onAuthStateChanged(auth, callback);
 
 export {
   auth,
