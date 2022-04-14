@@ -33,7 +33,7 @@ export const TasksProvider = ({ children }) => {
       }
     };
     getData();
-  }, [loading]);
+  }, []);
 
   const value = { tasks, setTasks, loading };
   return (

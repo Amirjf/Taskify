@@ -40,18 +40,7 @@ const CalendarColumn = () => {
       }
     };
     getData();
-  }, [currentUser, loading]);
-
-  // useEffect(() => {
-  //   const getCompletedTasks = async () => {
-  //     const filteredData = tasks
-  //       .filter((task) => task.isTaskCompleted === false)
-  //       .map((task) => task);
-  //     console.log(filteredData);
-  //     // setTasks(filteredData);
-  //   };
-  //   getCompletedTasks();
-  // }, []);
+  }, []);
 
   return (
     <motion.div
@@ -59,15 +48,21 @@ const CalendarColumn = () => {
       className={`calendar-container ${isFullScreen ? "hide" : ""}`}
     >
       <Calendar showNeighboringMonth={false} value={new Date()} />
-      <h4 className="completed-tasks-header">
-        <span className="text-success">Finished</span> Tasks
-      </h4>
-      {loading ? (
-        tasks
-          .filter((task, idx) => idx < 15)
-          .map((task) => <CompletedTaskItem key={task.taskId} task={task} />)
-      ) : (
-        <Loading />
+      {currentUser && (
+        <>
+          <h4 className="completed-tasks-header">
+            <span className="text-success">Finished</span> Tasks
+          </h4>
+          {loading ? (
+            tasks
+              .filter((task, idx) => idx < 15)
+              .map((task) => (
+                <CompletedTaskItem key={task.taskId} task={task} />
+              ))
+          ) : (
+            <Loading />
+          )}
+        </>
       )}
     </motion.div>
   );
