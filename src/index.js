@@ -6,6 +6,7 @@ import { FullScreenProvider } from "./context/FullScreenContext";
 
 import { BrowserRouter } from "react-router-dom";
 import { UserProvider } from "./context/UserContext";
+import { TasksProvider } from "./context/TasksContext";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./assets/styles/_global.scss";
@@ -17,9 +18,11 @@ ReactDOM.render(
   <BrowserRouter>
     <ThemeProvider>
       <UserProvider>
-        <FullScreenProvider>
-          <App />
-        </FullScreenProvider>
+        <TasksProvider>
+          <FullScreenProvider>
+            <App />
+          </FullScreenProvider>
+        </TasksProvider>
       </UserProvider>
     </ThemeProvider>
   </BrowserRouter>,

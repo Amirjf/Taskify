@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import { motion } from "framer-motion";
 
 import "./_taskitems.scss";
+import { TasksContext } from "../../context/TasksContext";
 
 const statusColors = {
   urgent: "rgb(229 25 25 / 60%)",
@@ -10,6 +11,8 @@ const statusColors = {
 };
 
 const TaskItems = ({ item, onRemoveItem, onTaskCompleted }) => {
+  const { removeTask, setTaskToCompleted } = useContext(TasksContext);
+
   const { taskStatus, taskCreatedAt, taskCategory, taskTitle, taskColor } =
     item;
 
@@ -46,7 +49,7 @@ const TaskItems = ({ item, onRemoveItem, onTaskCompleted }) => {
           <div className="more-wrapper">
             <button
               className="add-participant"
-              onClick={() => onTaskCompleted(item)}
+              onClick={() => setTaskToCompleted(item)}
             >
               <i className="gg-check text-success"></i>
             </button>
@@ -66,7 +69,7 @@ const TaskItems = ({ item, onRemoveItem, onTaskCompleted }) => {
           <div className="participants">
             <button
               className="add-participant"
-              onClick={() => onRemoveItem(item)}
+              onClick={() => removeTask(item)}
             >
               <i className="gg-trash text-danger"></i>
             </button>

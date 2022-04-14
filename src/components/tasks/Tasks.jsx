@@ -1,25 +1,19 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import SectionHeading from "../section-heading/SectionHeading";
 import TasksItems from "../tasks-items/TaskItems";
 import Input from "../input/Input";
 import { useForm } from "react-hook-form";
-import {
-  CreateTaskCollection,
-  deleteTaskDoc,
-  setTaskCompleted,
-} from "../../firebase/firebase.utils";
 import Button from "../button/Button";
 import "./_tasks.scss";
 import Select from "../select/Select";
 import { AnimatePresence, motion } from "framer-motion";
 import Loading from "../loading/Loading";
-import { db2 } from "../../firebase/firebase.config";
-import { collection, doc, getDocs } from "firebase/firestore";
+import { TasksContext } from "../../context/TasksContext";
 
 const Tasks = () => {
+  const { tasks, loading, addNewTask } = useContext(TasksContext);
+
   const [showTaskForm, setShowTaskForm] = useState(false);
-  const [tasks, setTasks] = useState([]);
-  const [loading, setLoading] = useState(false);
 
   const user = localStorage.getItem("user");
   const currentUser = JSON.parse(user);
@@ -27,7 +21,7 @@ const Tasks = () => {
   const {
     handleSubmit,
     register,
-    formState: { errors, isSubmitted },
+    formState: { errors },
   } = useForm({
     defaultValues: {
       taskTitle: "",
@@ -37,56 +31,15 @@ const Tasks = () => {
     },
   });
 
-  const taskCompleted = async (item) => {
-    item["isTaskCompleted"] = true;
-
-    await setTaskCompleted(currentUser, item);
-    const filteredData = tasks
-      .filter((task) => task.isTaskCompleted === false)
-      .map((task) => task);
-
-    setTasks(filteredData);
-  };
-
-  const removeItem = (taskToRemove) => {
-    deleteTaskDoc(currentUser, taskToRemove);
-    const filtered = tasks.filter((e) => e !== taskToRemove);
-    setTasks(filtered);
-  };
-
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const userRef = doc(db2, "users", currentUser.uid);
-        const tasksDoc = await getDocs(collection(userRef, "tasks"));
-        const data = tasksDoc.docs.map((doc) => {
-          return doc.data();
-        });
-
-        data ? setLoading(true) : setLoading(false);
-
-        const filteredData = data
-          .filter((task) => task.isTaskCompleted === false)
-          .map((task) => task);
-
-        setTasks(filteredData);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getData();
-  }, [isSubmitted]);
-
   const onSubmit = (data) => {
-    CreateTaskCollection(data);
+    addNewTask(data);
     toggle();
-    // setItems((prevState) => [...prevState, data]);
   };
 
   const toggle = () => {
     setShowTaskForm(!showTaskForm);
   };
-
+  console.log(tasks);
   return (
     <>
       <Button
@@ -210,14 +163,9 @@ const Tasks = () => {
         <motion.div className="project-boxes">
           <AnimatePresence>
             {loading ? (
-              tasks.map((item) => (
-                <TasksItems
-                  key={item.taskId}
-                  onTaskCompleted={taskCompleted}
-                  onRemoveItem={removeItem}
-                  item={item}
-                />
-              ))
+              tasks
+                .filter((task) => task.isTaskCompleted === false)
+                .map((item) => <TasksItems key={item.taskId} item={item} />)
             ) : (
               <Loading />
             )}

@@ -12,16 +12,17 @@ export const GetTaskDocCollection = async (userAuth) => {
 };
 
 export const setTaskCompleted = async (user, item) => {
-  const res = db
+  const res = await db
     .collection("users")
     .doc(user.uid)
     .collection("tasks")
     .where("taskId", "==", item.taskId)
     .get()
     .then((querySnapshot) => {
-      querySnapshot.docs[0].ref.update({ isTaskCompleted: true });
+      console.log(querySnapshot.docs[0]);
+      querySnapshot.docs[0].ref.update(item);
     });
-  return res;
+  console.log(res);
 };
 
 export const deleteTaskDoc = (userAuth, task) => {

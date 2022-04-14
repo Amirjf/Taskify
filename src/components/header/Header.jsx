@@ -1,18 +1,15 @@
 import React from "react";
-import "./header.styles.scss";
 import SectionHeading from "../section-heading/SectionHeading";
 import { Link, useLocation } from "react-router-dom";
 import ThemeSelect from "../theme-select/ThemeSelect";
 import { auth, logout } from "../../firebase/firebase.config";
 import { useAuthState } from "react-firebase-hooks/auth";
+import "./header.styles.scss";
 
 import Button from "../button/Button";
 const Header = () => {
   let { pathname } = useLocation();
   const [user] = useAuthState(auth);
-
-  // const getUser = localStorage.getItem("user");
-  // const user = JSON.parse(getUser);
 
   const handleUserAvatar = () => {
     if (user === null) {
