@@ -10,7 +10,7 @@ const statusColors = {
   notImportant: "#6c6d6d",
 };
 
-const TaskItems = ({ item, onRemoveItem, onTaskCompleted }) => {
+const TaskItems = ({ item }) => {
   const { removeTask, setTaskToCompleted } = useContext(TasksContext);
 
   const { taskStatus, taskCreatedAt, taskCategory, taskTitle, taskColor } =

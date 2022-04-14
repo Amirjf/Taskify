@@ -67,8 +67,10 @@
 }
 .react-calendar__tile--active {
   background: var(--fg) !important;
+  border-radius: 10px;
 }
 .react-calendar__tile:hover {
+  border-radius: 10px;
   background: var(--fg) !important;
 }
 

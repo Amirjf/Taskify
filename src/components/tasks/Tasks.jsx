@@ -39,7 +39,7 @@ const Tasks = () => {
   const toggle = () => {
     setShowTaskForm(!showTaskForm);
   };
-  console.log(tasks);
+
   return (
     <>
       <Button

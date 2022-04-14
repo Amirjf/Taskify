@@ -9,10 +9,11 @@ import { UserProvider } from "./context/UserContext";
 import { TasksProvider } from "./context/TasksContext";
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./assets/styles/_global.scss";
 import "react-toastify/dist/ReactToastify.min.css";
 import "css.gg/icons/all.css";
 import "boxicons/css/boxicons.min.css";
+import "react-circular-progressbar/dist/styles.css";
+import "./assets/styles/_global.scss";
 
 ReactDOM.render(
   <BrowserRouter>

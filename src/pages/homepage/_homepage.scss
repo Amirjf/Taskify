@@ -1,0 +1,44 @@
+.CircularProgressbar-text {
+  fill: var(--text-fg) !important;
+  font-size: 1.6rem !important;
+}
+
+.tasks-overview {
+  background-color: var(--bg-level-1);
+  display: flex;
+  justify-content: space-between;
+  margin: 0 10px;
+  align-items: center;
+  border-radius: 25px;
+  padding: 30px;
+  .tasks-info {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    .tasks-overview-title {
+      color: var(--text-fg);
+      padding-left: 20px;
+      font-size: 1.2em;
+      .tasks-status {
+        color: #9495987b;
+        font-size: 16px;
+      }
+    }
+    .task-icon-container {
+      position: relative;
+      border-radius: 100%;
+      width: 62px;
+      height: 62px;
+      border: solid 1px #9495987b;
+      border-radius: 18px 18px 18px 18px;
+      i {
+        position: absolute;
+        font-size: 1.5em;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: var(--fg);
+      }
+    }
+  }
+}
