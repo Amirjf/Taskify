@@ -35,7 +35,7 @@ const Sidebar = () => {
               <span>Tasks</span>
             </NavLink>
           </li>
-          <li>
+          {/* <li>
             <NavLink to="/activity" className="nav-link">
               <i className="gg-arrow-top-right-r nav-icon"></i>
               <span>Activity</span>
@@ -58,7 +58,7 @@ const Sidebar = () => {
               <i className="gg-media-live nav-icon"></i>
               <span>Setting</span>
             </NavLink>
-          </li>
+          </li> */}
         </ul>
       </motion.div>
     </>
