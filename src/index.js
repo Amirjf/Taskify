@@ -5,7 +5,6 @@ import { ThemeProvider } from "./context/ThemeContext";
 import { FullScreenProvider } from "./context/FullScreenContext";
 
 import { BrowserRouter } from "react-router-dom";
-import { TasksProvider } from "./context/TasksContext";
 import { UserProvider } from "./context/UserContext";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -19,9 +18,7 @@ ReactDOM.render(
     <ThemeProvider>
       <UserProvider>
         <FullScreenProvider>
-          <TasksProvider>
-            <App />
-          </TasksProvider>
+          <App />
         </FullScreenProvider>
       </UserProvider>
     </ThemeProvider>

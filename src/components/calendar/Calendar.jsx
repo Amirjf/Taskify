@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import { FullScreenContext } from "../../context/FullScreenContext";
 
 import "react-calendar/dist/Calendar.css";
-import { useTasksContext } from "../../context/TasksContext";
 import CompletedTaskItem from "../completed-task-item/CompletedTaskItem";
 import { db2 } from "../../firebase/firebase.config";
 import { collection, doc, getDocs } from "firebase/firestore";

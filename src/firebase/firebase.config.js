@@ -1,21 +1,10 @@
 import "firebase/compat/firestore";
 import "firebase/compat/auth";
 import firebase from "firebase/compat/app";
-import {
-  collection,
-  getDoc,
-  getDocs,
-  deleteDoc,
-  getFirestore,
-  doc,
-  setDoc,
-  writeBatch,
-} from "firebase/firestore";
+import { getDoc, getFirestore, doc, setDoc } from "firebase/firestore";
 import {
   signInWithEmailAndPassword,
-  sendPasswordResetEmail,
   signOut,
-  signInWithRedirect,
   signInWithPopup,
   getAuth,
   GoogleAuthProvider,

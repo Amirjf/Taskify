@@ -31,6 +31,15 @@
     li:nth-child(1) {
       padding-left: 14px;
     }
+    li:last-child {
+      margin-top: 100%;
+    }
+
+    .nav-link {
+      &.sign-out {
+        color: rgba(226, 77, 23, 0.886);
+      }
+    }
     li a {
       display: flex;
       color: #a2a7af;

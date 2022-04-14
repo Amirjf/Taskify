@@ -6,17 +6,13 @@ import { useForm } from "react-hook-form";
 import {
   CreateTaskCollection,
   deleteTaskDoc,
-  GetTaskDocCollection,
   setTaskCompleted,
 } from "../../firebase/firebase.utils";
 import Button from "../button/Button";
 import "./_tasks.scss";
 import Select from "../select/Select";
 import { AnimatePresence, motion } from "framer-motion";
-import { toast } from "react-toastify";
 import Loading from "../loading/Loading";
-import { UserContext } from "../../context/UserContext";
-import { useTasksContext } from "../../context/TasksContext";
 import { db2 } from "../../firebase/firebase.config";
 import { collection, doc, getDocs } from "firebase/firestore";
 
@@ -31,7 +27,7 @@ const Tasks = () => {
   const {
     handleSubmit,
     register,
-    formState: { errors, isSubmitted, isSubmitSuccessful },
+    formState: { errors, isSubmitted },
   } = useForm({
     defaultValues: {
       taskTitle: "",
@@ -79,7 +75,7 @@ const Tasks = () => {
       }
     };
     getData();
-  }, [loading]);
+  }, [isSubmitted]);
 
   const onSubmit = (data) => {
     CreateTaskCollection(data);

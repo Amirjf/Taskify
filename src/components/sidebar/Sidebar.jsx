@@ -4,9 +4,18 @@ import { motion } from "framer-motion";
 import { Link, NavLink } from "react-router-dom";
 import Logo from "../../assets/images/mylogo.png";
 import "./_sidebar.scss";
+import { auth, logout } from "../../firebase/firebase.config";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const Sidebar = () => {
   const { isFullScreen, setIsFullScreen } = useContext(FullScreenContext);
+
+  const [user] = useAuthState(auth);
+
+  const signOut = async () => {
+    localStorage.removeItem("user");
+    await logout();
+  };
   return (
     <>
       <motion.div layout className={`sidebar ${isFullScreen ? "hide" : ""}`}>
@@ -35,6 +44,21 @@ const Sidebar = () => {
               <span>Tasks</span>
             </NavLink>
           </li>
+          {user ? (
+            <li onClick={signOut}>
+              <NavLink to="/" className="nav-link sign-out">
+                <i className="gg-log-off nav-icon"></i>
+                <span>Log Out</span>
+              </NavLink>
+            </li>
+          ) : (
+            <li>
+              <NavLink to="/auth" className="nav-link">
+                <i className="gg-log-in nav-icon"></i>
+                <span>Sign In/Out</span>
+              </NavLink>
+            </li>
+          )}
           {/* <li>
             <NavLink to="/activity" className="nav-link">
               <i className="gg-arrow-top-right-r nav-icon"></i>
