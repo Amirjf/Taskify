@@ -1,9 +1,11 @@
 .loading-container {
   margin: 10px auto;
+  display: flex;
+  justify-content: center;
   .loading {
     border-radius: 50%;
-    width: 65px;
-    height: 65px;
+    width: 39px;
+    height: 39px;
     border: 0.25rem solid rgba(rgb(180, 180, 180), 0.2);
     border-top-color: var(--fg);
     animation: spin 1s infinite linear;

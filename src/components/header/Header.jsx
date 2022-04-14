@@ -7,9 +7,11 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import "./header.styles.scss";
 
 import Button from "../button/Button";
+import Loading from "../loading/Loading";
 const Header = () => {
   let { pathname } = useLocation();
-  const [user] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth);
+  console.log(loading);
 
   const handleUserAvatar = () => {
     if (user === null) {
@@ -40,14 +42,18 @@ const Header = () => {
           </Button>
         </Link>
 
-        <div className="avatar-container">
-          <Link className="image-link-container" to={user ? "/" : "/auth"}>
-            <img className="avatar" src={handleUserAvatar()} alt="avatar" />
-            <span className="user-name-dropdown">
-              {user ? user.displayName : ""}
-            </span>
-          </Link>
-        </div>
+        {loading ? (
+          <Loading />
+        ) : (
+          <div className="avatar-container">
+            <Link className="image-link-container" to={user ? "/" : "/auth"}>
+              <img className="avatar" src={handleUserAvatar()} alt="avatar" />
+              <span className="user-name-dropdown">
+                {user ? user.displayName : ""}
+              </span>
+            </Link>
+          </div>
+        )}
         {user ? (
           <div className="logout-container" onClick={signOut}>
             <i className="gg-log-off"></i>

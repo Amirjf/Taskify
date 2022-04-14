@@ -4,28 +4,34 @@ import Loading from "../../components/loading/Loading";
 import Header from "../../components/header/Header";
 import SectionHeading from "../../components/section-heading/SectionHeading";
 import Sidebar from "../../components/sidebar/Sidebar";
-import TaskItems from "../../components/tasks-items/TaskItems";
+
 import { TasksContext } from "../../context/TasksContext";
 import TasksOverviewWidget from "../../components/tasks-overview-widget/TasksOverviewWidget";
 
-// import "../../react-circular-progressbar/dist/styles.css";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../firebase/firebase.config";
 
 import "./_homepage.scss";
 
 const HomePage = () => {
-  const { tasks, loading } = useContext(TasksContext);
+  const { loading } = useContext(TasksContext);
 
-  const user = localStorage.getItem("user");
-  const currentUser = JSON.parse(user);
+  const [user] = useAuthState(auth);
 
   return (
     <>
       <Sidebar />
       <Header />
-      <div className="d-flex">
-        <TasksOverviewWidget />
-        <TasksOverviewWidget />
-      </div>
+      {user && loading ? (
+        <div className="d-flex">
+          <TasksOverviewWidget inProgress />
+          <TasksOverviewWidget />
+        </div>
+      ) : user ? (
+        <Loading />
+      ) : (
+        <SectionHeading title="Please Sign In To Your Account" center />
+      )}
       <CalendarColumn />
     </>
   );

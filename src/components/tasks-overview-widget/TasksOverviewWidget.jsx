@@ -1,19 +1,24 @@
-import React from "react";
+import React, { useContext } from "react";
 import { CircularProgressbar } from "react-circular-progressbar";
+import { TasksContext } from "../../context/TasksContext";
 
-const TasksOverviewWidget = () => {
+const TasksOverviewWidget = ({ inProgress }) => {
+  const { openTasksCount, completedTasksCount } = useContext(TasksContext);
+
   return (
     <div className="col-md-6">
       <div className="tasks-overview">
         <div className="tasks-info">
           <span className="task-icon-container">
-            <i className="bx bx-task"></i>
+            <i className={`bx bx-${inProgress ? "hourglass" : "task"}`}></i>
           </span>
           <div className="tasks-overview-title">
-            <span className="tasks-count">12 </span>
+            <span className="tasks-count">
+              {`${inProgress ? openTasksCount : completedTasksCount}`}{" "}
+            </span>
             <span>Tasks</span>
             <div className="tasks-status">
-              <span>Completed</span>
+              {inProgress ? <span>In Progress</span> : <span>Completed</span>}
             </div>
           </div>
         </div>
@@ -26,11 +31,12 @@ const TasksOverviewWidget = () => {
         >
           <CircularProgressbar
             styles={{
-              path: { stroke: "#25c1b1" },
+              path: { stroke: inProgress ? "#25c1b1" : "#b1b1fa" },
               trail: { stroke: "#4b4b59" },
             }}
-            value={66}
-            text={`${66}%`}
+            maxValue={100}
+            value={inProgress ? openTasksCount : completedTasksCount}
+            text={`${inProgress ? openTasksCount : completedTasksCount}`}
           />
         </div>
       </div>

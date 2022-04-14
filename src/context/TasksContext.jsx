@@ -15,16 +15,34 @@ export const TasksContext = createContext({
   removeTask: () => {},
   setTaskToCompleted: () => {},
   loading: false,
+  openTasksCount: 0,
+  completedTasksCount: 0,
 });
 
 export const TasksProvider = ({ children }) => {
   const [tasks, setTasks] = useState([]);
   const [completedTasks, setCompletedTasks] = useState([]);
+  const [openTasksCount, setOpenTasksCount] = useState(0);
+  const [completedTasksCount, setCompletedTasksCount] = useState(0);
 
   const [loading, setLoading] = useState(false);
 
   const user = localStorage.getItem("user");
   const currentUser = JSON.parse(user);
+
+  useEffect(() => {
+    const newOpenTasksCount = tasks.filter(
+      (task) => task.isTaskCompleted !== true
+    ).length;
+    setOpenTasksCount(newOpenTasksCount);
+  }, [tasks, completedTasks]);
+
+  useEffect(() => {
+    const newCompletedTasksCount = tasks.filter(
+      (task) => task.isTaskCompleted === true
+    ).length;
+    setCompletedTasksCount(newCompletedTasksCount);
+  }, [tasks]);
 
   useEffect(() => {
     const getData = async () => {
@@ -101,6 +119,8 @@ export const TasksProvider = ({ children }) => {
     removeTask,
     setTaskToCompleted,
     completedTasks,
+    openTasksCount,
+    completedTasksCount,
   };
 
   return (
