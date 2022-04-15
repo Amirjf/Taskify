@@ -1,22 +1,34 @@
-import React from "react";
-
+import React, { useContext, useState } from "react";
+import { TasksContext } from "../../context/TasksContext";
+import { animate, motion } from "framer-motion";
+import "./_completed-taskitem.scss";
 const CompletedTaskItem = ({ task }) => {
-  const { taskTitle, taskCategory, taskColor } = task;
+  const { removeCompletedTask } = useContext(TasksContext);
+  const [isRemoved, setIsRemoved] = useState(false);
+  const { taskTitle, taskCategory } = task;
+
   return (
-    <div
+    <motion.div
+      initial={{ x: -100 }}
+      animate={{ x: 0, opacity: 1 }}
+      exit={{ scale: 0 }}
+      transition={{ type: "spring" }}
+      layout
       className="completed-tasks-container"
-      style={{ background: taskColor ? taskColor : "rgb(200, 247, 220)" }}
     >
       <div className="task-info">
-        <span className="undo-icon-container">
-          <i className="bx bx-undo"></i>
+        <span
+          className="undo-icon-container"
+          onClick={() => removeCompletedTask(task)}
+        >
+          <i className="bx bx-trash"></i>
         </span>
         <div>
           <div className="task-completed-title">{taskTitle}</div>
           <div className="task-completed-category">{taskCategory}</div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

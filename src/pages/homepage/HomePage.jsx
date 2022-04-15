@@ -11,8 +11,6 @@ import TasksOverviewWidget from "../../components/tasks-overview-widget/TasksOve
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase/firebase.config";
 
-import "./_homepage.scss";
-
 const HomePage = () => {
   const { loading } = useContext(TasksContext);
 

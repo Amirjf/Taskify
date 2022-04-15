@@ -1,4 +1,13 @@
-import { collection, getDocs, doc, writeBatch } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  doc,
+  writeBatch,
+  query,
+  getDoc,
+  where,
+  onSnapshot,
+} from "firebase/firestore";
 import { db2, db, auth } from "./firebase.config";
 
 export const GetTaskDocCollection = async (userAuth) => {
@@ -12,17 +21,22 @@ export const GetTaskDocCollection = async (userAuth) => {
 };
 
 export const setTaskCompleted = async (user, item) => {
-  const res = await db
-    .collection("users")
+  db.collection("users")
     .doc(user.uid)
     .collection("tasks")
     .where("taskId", "==", item.taskId)
     .get()
     .then((querySnapshot) => {
-      console.log(querySnapshot.docs[0]);
-      querySnapshot.docs[0].ref.update(item);
+      querySnapshot.docs[0].ref.update({ isTaskCompleted: true });
     });
-  console.log(res);
+
+  // const q = query(tasksRef, where("taskId", "==", item.taskId));
+  // const unsubscribe = onSnapshot(q, (snapshot) => {
+  //   console.log("task:");
+  //   snapshot.forEach((userSnapshot) => {
+  //     console.log(userSnapshot.data());
+  //   });
+  // });
 };
 
 export const deleteTaskDoc = (userAuth, task) => {

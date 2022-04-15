@@ -1,5 +1,5 @@
 .CircularProgressbar-text {
-  fill: var(--text-fg) !important;
+  fill: var(--label-fg) !important;
   font-size: 2rem !important;
 }
 
@@ -16,7 +16,7 @@
     align-items: center;
     padding: 10px 0;
     .tasks-overview-title {
-      color: var(--text-fg);
+      color: var(--label-fg);
       padding-left: 20px;
       font-size: 1.2em;
       .tasks-status {

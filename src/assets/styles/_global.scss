@@ -38,6 +38,7 @@ a {
   --text-fg: #eee;
   --fg: #ffc149;
   --input-bg: #2e384e;
+  --input-fg: #fff;
   --button-bg: #ffc149;
   --button-fg: #eee;
   --label-fg: #eee;
@@ -56,7 +57,7 @@ a {
 }
 [data-theme="mixed"] {
   --bg: #222c41;
-  --text-fg: #323232;
+  --text-fg: #fff;
   --bg-level-1: #eee;
   --fg: #ffc149;
   --calendar-text: #323232;

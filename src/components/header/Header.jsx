@@ -11,7 +11,6 @@ import Loading from "../loading/Loading";
 const Header = () => {
   let { pathname } = useLocation();
   const [user, loading] = useAuthState(auth);
-  console.log(loading);
 
   const handleUserAvatar = () => {
     if (user === null) {

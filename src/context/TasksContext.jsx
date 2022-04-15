@@ -1,5 +1,6 @@
 import { collection, doc, getDocs } from "firebase/firestore";
 import { createContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 import { db2 } from "../firebase/firebase.config";
 import {
@@ -13,6 +14,7 @@ export const TasksContext = createContext({
   completedTasks: [],
   addNewTask: () => {},
   removeTask: () => {},
+  removeCompletedTask: () => {},
   setTaskToCompleted: () => {},
   loading: false,
   openTasksCount: 0,
@@ -42,7 +44,7 @@ export const TasksProvider = ({ children }) => {
       (task) => task.isTaskCompleted === true
     ).length;
     setCompletedTasksCount(newCompletedTasksCount);
-  }, [tasks]);
+  }, [completedTasks, tasks]);
 
   useEffect(() => {
     const getData = async () => {
@@ -57,7 +59,7 @@ export const TasksProvider = ({ children }) => {
 
         setTasks(data);
       } catch (err) {
-        console.log(err);
+        toast.error(err.message);
       }
     };
     getData();
@@ -78,38 +80,61 @@ export const TasksProvider = ({ children }) => {
 
         setCompletedTasks(filtered);
       } catch (err) {
-        console.log(err);
+        toast.error(err.message);
       }
     };
     getCompletedTasks();
   }, []);
 
   const addNewTask = (taskToAdd) => {
-    CreateTaskCollection(taskToAdd);
-
-    const date = new Date().toDateString();
-    const randomId = Math.floor(Math.random() * Date.now());
-    const task = {
-      ...taskToAdd,
-      isTaskCompleted: false,
-      taskCreatedAt: date,
-      taskId: randomId,
-    };
-    setTasks([...tasks, task]);
+    try {
+      CreateTaskCollection(taskToAdd);
+      const date = new Date().toDateString();
+      const randomId = Math.floor(Math.random() * Date.now());
+      const task = {
+        ...taskToAdd,
+        isTaskCompleted: false,
+        taskCreatedAt: date,
+        taskId: randomId,
+      };
+      setTasks([...tasks, task]);
+    } catch (err) {
+      toast.error(err.message);
+    }
   };
 
   const removeTask = (taskToRemove) => {
-    deleteTaskDoc(currentUser, taskToRemove);
-    const filtered = tasks.filter(
-      (task) => task.taskId !== taskToRemove.taskId
-    );
-    setTasks(filtered);
+    try {
+      deleteTaskDoc(currentUser, taskToRemove);
+      const filtered = tasks.filter(
+        (task) => task.taskId !== taskToRemove.taskId
+      );
+      setTasks(filtered);
+    } catch (err) {
+      toast.error(err.message);
+    }
+  };
+  const removeCompletedTask = (taskToRemove) => {
+    try {
+      deleteTaskDoc(currentUser, taskToRemove);
+      const filtered = completedTasks.filter(
+        (task) => task.taskId !== taskToRemove.taskId
+      );
+      setCompletedTasks(filtered);
+    } catch (err) {
+      toast.error(err.message);
+    }
   };
 
-  const setTaskToCompleted = async (taskToComplete) => {
-    taskToComplete["isTaskCompleted"] = true;
-    const res = setTaskCompleted(currentUser, taskToComplete);
-    setCompletedTasks([taskToComplete, ...completedTasks]);
+  const setTaskToCompleted = (taskToComplete) => {
+    try {
+      taskToComplete["isTaskCompleted"] = true;
+      setTaskCompleted(currentUser, taskToComplete);
+
+      setCompletedTasks([taskToComplete, ...completedTasks]);
+    } catch (err) {
+      toast.error(err.message);
+    }
   };
 
   const value = {
@@ -117,6 +142,7 @@ export const TasksProvider = ({ children }) => {
     addNewTask,
     loading,
     removeTask,
+    removeCompletedTask,
     setTaskToCompleted,
     completedTasks,
     openTasksCount,

@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { CircularProgressbar } from "react-circular-progressbar";
 import { TasksContext } from "../../context/TasksContext";
+import "./_tasks-overview-widget.scss";
 
 const TasksOverviewWidget = ({ inProgress }) => {
   const { openTasksCount, completedTasksCount } = useContext(TasksContext);
