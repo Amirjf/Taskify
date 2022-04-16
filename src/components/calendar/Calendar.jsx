@@ -27,7 +27,7 @@ const CalendarColumn = () => {
         <span className="text-success">Finished</span> Tasks
       </h4>
       {completedTasks.length > 0 && currentUser && (
-        <motion.div layout className="finished-tasks-container">
+        <motion.div className="finished-tasks-container">
           <AnimatePresence>
             {loading ? (
               completedTasks.map((task) => (

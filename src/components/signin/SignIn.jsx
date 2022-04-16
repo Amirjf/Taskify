@@ -63,11 +63,11 @@ const SignIn = () => {
           placeholder="type a password"
         />
         <div className="sign-in-button-container">
-          <Button type="submit">Sign in</Button>
-          <Button type="button" icon="google" isGoogle onClick={signInGoogle}>
-            Sign in with Google
-          </Button>
+          <Button>Sign in</Button>
         </div>
+        <Button type="button" icon="google" isGoogle onClick={signInGoogle}>
+          Sign in with Google
+        </Button>
       </form>
     </div>
   );
