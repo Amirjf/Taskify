@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../button/Button";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -12,19 +12,30 @@ import { useForm } from "react-hook-form";
 import Input from "../input/Input";
 
 const SignIn = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   formState: { errors },
+  // } = useForm();
+
+  const [formValues, setFormValues] = useState({
+    email: "",
+    password: "",
+  });
 
   const [user, loading, error] = useAuthState(auth);
 
-  const navigate = useNavigate();
-
-  const signInGoogle = async () => {
-    await signInWithGoogle();
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormValues((prevState) => {
+      return {
+        ...prevState,
+        [name]: value,
+      };
+    });
   };
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (loading) {
@@ -37,38 +48,56 @@ const SignIn = () => {
     }
   }, [user, loading]);
 
-  const onSubmit = (data) => {
-    const { email, password, displayName } = data;
-    logInWithEmailAndPassword(email, password, displayName);
+  // const onSubmit = (data) => {
+  //   const { email, password, displayName } = data;
+  //   logInWithEmailAndPassword(email, password, displayName);
+  // };
+
+  const handleSignInWithGoogle = async () => {
+    await signInWithGoogle();
   };
+
+  const handleSignInWithEmailAndPassword = async () => {
+    const { email, password } = formValues;
+    logInWithEmailAndPassword(email, password);
+    console.log(formValues);
+  };
+
+  const { email, password } = formValues;
+
   return (
     <div className="sign-in-container">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Input
+      <div>
+        <input
           label="Email"
-          registerLabel="email"
-          errors={errors}
-          register={register}
+          name="email"
+          onChange={handleChange}
+          value={email}
           required
           placeholder="Example : Amirmasoud@gmail.com"
         />
 
-        <Input
+        <input
           label="Password"
           type="password"
-          registerLabel="password"
-          errors={errors}
-          register={register}
+          name="password"
+          value={password}
+          onChange={handleChange}
           required
           placeholder="type a password"
         />
         <div className="sign-in-button-container">
-          <Button>Sign in</Button>
+          <Button onClick={handleSignInWithEmailAndPassword}>Sign in</Button>
         </div>
-        <Button type="button" icon="google" isGoogle onClick={signInGoogle}>
+        <Button
+          type="button"
+          icon="google"
+          isGoogle
+          onClick={handleSignInWithGoogle}
+        >
           Sign in with Google
         </Button>
-      </form>
+      </div>
     </div>
   );
 };
