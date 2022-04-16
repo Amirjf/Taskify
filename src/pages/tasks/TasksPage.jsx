@@ -15,7 +15,6 @@ const TasksPage = () => {
       <Header />
       <Sidebar />
       {user ? <Tasks /> : <SectionHeading title="Please Sign in first" />}
-      <CalendarColumn />
     </>
   );
 };

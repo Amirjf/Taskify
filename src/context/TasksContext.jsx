@@ -1,5 +1,5 @@
 import { collection, doc, getDocs } from "firebase/firestore";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState, useCallback } from "react";
 import { toast } from "react-toastify";
 
 import { db2 } from "../firebase/firebase.config";
@@ -59,6 +59,9 @@ export const TasksProvider = ({ children }) => {
 
         setTasks(data);
       } catch (err) {
+        if (currentUser === null) {
+          return;
+        }
         toast.error(err.message);
       }
     };
@@ -80,6 +83,9 @@ export const TasksProvider = ({ children }) => {
 
         setCompletedTasks(filtered);
       } catch (err) {
+        if (currentUser === null) {
+          return;
+        }
         toast.error(err.message);
       }
     };
@@ -111,7 +117,7 @@ export const TasksProvider = ({ children }) => {
       );
       setTasks(filtered);
     } catch (err) {
-      toast.error(err.message);
+      console.log(err);
     }
   };
   const removeCompletedTask = (taskToRemove) => {
@@ -122,20 +128,34 @@ export const TasksProvider = ({ children }) => {
       );
       setCompletedTasks(filtered);
     } catch (err) {
-      toast.error(err.message);
+      console.log(err);
     }
   };
 
-  const setTaskToCompleted = (taskToComplete) => {
-    try {
-      taskToComplete["isTaskCompleted"] = true;
-      setTaskCompleted(currentUser, taskToComplete);
+  const setTaskToCompleted = useCallback(
+    (taskToComplete) => {
+      try {
+        taskToComplete["isTaskCompleted"] = true;
+        setTaskCompleted(currentUser, taskToComplete);
 
-      setCompletedTasks([taskToComplete, ...completedTasks]);
-    } catch (err) {
-      toast.error(err.message);
-    }
-  };
+        setCompletedTasks([taskToComplete, ...completedTasks]);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    [completedTasks]
+  );
+
+  // const setTaskToCompleted = (taskToComplete) => {
+  //   try {
+  //     taskToComplete["isTaskCompleted"] = true;
+  //     setTaskCompleted(currentUser, taskToComplete);
+
+  //     setCompletedTasks([taskToComplete, ...completedTasks]);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   const value = {
     tasks,

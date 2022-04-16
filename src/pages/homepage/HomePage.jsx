@@ -30,7 +30,6 @@ const HomePage = () => {
       ) : (
         <SectionHeading title="Please Sign In To Your Account" center />
       )}
-      <CalendarColumn />
     </>
   );
 };

@@ -18,12 +18,15 @@ const CalendarColumn = () => {
   const currentUser = JSON.parse(user);
 
   return (
-    <div className={`calendar-container ${isFullScreen ? "hide" : ""}`}>
+    <motion.div
+      layout
+      className={`calendar-container ${isFullScreen ? "hide" : ""}`}
+    >
       <Calendar showNeighboringMonth={false} value={new Date()} />
       <h4 className="completed-tasks-header">
         <span className="text-success">Finished</span> Tasks
       </h4>
-      {completedTasks && currentUser && (
+      {completedTasks.length > 0 && currentUser && (
         <motion.div layout className="finished-tasks-container">
           <AnimatePresence>
             {loading ? (
@@ -36,7 +39,7 @@ const CalendarColumn = () => {
           </AnimatePresence>
         </motion.div>
       )}
-    </div>
+    </motion.div>
   );
 };
 

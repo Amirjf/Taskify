@@ -6,6 +6,7 @@ import HomePage from "./pages/homepage/HomePage";
 import { ToastContainer } from "react-toastify";
 import ToggleSidebar from "./components/toggle-sidebar/ToggleSidebar";
 import TasksPage from "./pages/tasks/TasksPage";
+import CalendarColumn from "./components/calendar/Calendar";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
           <Route path="/tasks" element={<TasksPage />} />
           <Route path="/auth" element={<AuthPage />} />
         </Routes>
+        <CalendarColumn />
       </MainContent>
       <ToastContainer
         position="top-right"
