@@ -5,7 +5,7 @@ const SectionHeading = ({ title, center, textColor }) => {
   return (
     <h1
       style={{ color: textColor && textColor }}
-      className={`section-title my-5 ${center && "text-center mx-auto"}`}
+      className={`section-title my-2 ${center && "text-center mx-auto"}`}
     >
       {title}
     </h1>
