@@ -60,7 +60,6 @@ const SignIn = () => {
   const handleSignInWithEmailAndPassword = async () => {
     const { email, password } = formValues;
     logInWithEmailAndPassword(email, password);
-    console.log(formValues);
   };
 
   const { email, password } = formValues;
@@ -89,12 +88,7 @@ const SignIn = () => {
         <div className="sign-in-button-container">
           <Button onClick={handleSignInWithEmailAndPassword}>Sign in</Button>
         </div>
-        <Button
-          type="button"
-          icon="google"
-          isGoogle
-          onClick={handleSignInWithGoogle}
-        >
+        <Button icon="google" isGoogle onClick={handleSignInWithGoogle}>
           Sign in with Google
         </Button>
       </div>
