@@ -11,7 +11,7 @@ const CompletedTaskItem = ({ task }) => {
     <motion.div
       initial={{ x: -100 }}
       animate={{ x: 0, opacity: 1 }}
-      exit={{ scale: 0 }}
+      exit={{ x: 320 }}
       transition={{ type: "spring" }}
       layout
       className="completed-tasks-container"
