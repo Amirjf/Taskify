@@ -1,7 +1,7 @@
-import React, { useContext, useState } from "react";
-import { TasksContext } from "../../context/TasksContext";
-import { animate, motion } from "framer-motion";
-import "./_completed-taskitem.scss";
+import React, { useContext, useState } from 'react';
+import { TasksContext } from '../../context/TasksContext';
+import { motion } from 'framer-motion';
+import './_completed-taskitem.scss';
 const CompletedTaskItem = ({ task }) => {
   const { removeCompletedTask } = useContext(TasksContext);
   const [isRemoved, setIsRemoved] = useState(false);
@@ -12,7 +12,7 @@ const CompletedTaskItem = ({ task }) => {
       initial={{ x: -100 }}
       animate={{ x: 0, opacity: 1 }}
       exit={{ x: 320 }}
-      transition={{ type: "spring" }}
+      transition={{ type: 'spring' }}
       layout
       className="completed-tasks-container"
     >

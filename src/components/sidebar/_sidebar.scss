@@ -54,16 +54,14 @@
       margin-right: 13px;
     }
   }
-  // .toggle-sidebar {
-  //   position: absolute;
-  //   right: 20px;
-  //   top: 0;
-
-  // }
 }
 
 @media screen and (max-width: 980px) {
   .sidebar {
     left: -300px;
+    z-index: 999;
+    &.hide {
+      left: 0px;
+    }
   }
 }

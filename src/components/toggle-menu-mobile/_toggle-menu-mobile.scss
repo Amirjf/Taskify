@@ -1,0 +1,22 @@
+.burger-button {
+  display: none;
+}
+
+.menu-container {
+  background-color: #fff;
+  position: absolute;
+  left: -150px;
+  transition: all 1s;
+}
+
+@media screen and (max-width: 800px) {
+  .burger-button {
+    background-color: var(--fg);
+    display: inline;
+    position: fixed;
+    left: 0;
+    width: 23px;
+    top: 50%;
+    height: 30px;
+  }
+}

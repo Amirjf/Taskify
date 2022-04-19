@@ -1,9 +1,9 @@
-import React from "react";
-import { motion } from "framer-motion";
-import "./_input.scss";
+import React from 'react';
+import { motion } from 'framer-motion';
+import './_input.scss';
 
 const Input = ({
-  type = "text",
+  type = 'text',
   label,
   registerLabel,
   register,
@@ -17,8 +17,8 @@ const Input = ({
       <motion.input
         whileTap={{ scale: 0.9 }}
         type={type}
-        className={`${errors[registerLabel] ? "error" : ""}`}
-        {...register(registerLabel, { required })}
+        className={`${errors[registerLabel] ? 'error' : ''}`}
+        {...register(registerLabel)}
         {...otherProps}
       />
       {errors[registerLabel] && (

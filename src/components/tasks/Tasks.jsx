@@ -1,35 +1,28 @@
-import React, { useState, useContext } from "react";
-import SectionHeading from "../section-heading/SectionHeading";
-import TasksItems from "../tasks-items/TaskItems";
-import Input from "../input/Input";
-import { useForm } from "react-hook-form";
-import Button from "../button/Button";
-import "./_tasks.scss";
-import Select from "../select/Select";
-import { AnimatePresence, motion } from "framer-motion";
-import Loading from "../loading/Loading";
-import { TasksContext } from "../../context/TasksContext";
+import React, { useState, useContext, useEffect } from 'react';
+import SectionHeading from '../section-heading/SectionHeading';
+import TasksItems from '../tasks-items/TaskItems';
+import Input from '../input/Input';
+import { useForm } from 'react-hook-form';
+import Button from '../button/Button';
+import './_tasks.scss';
+import Select from '../select/Select';
+import { AnimatePresence, motion } from 'framer-motion';
+import Loading from '../loading/Loading';
+import { TasksContext } from '../../context/TasksContext';
 
 const Tasks = () => {
   const { tasks, loading, addNewTask } = useContext(TasksContext);
 
   const [showTaskForm, setShowTaskForm] = useState(false);
 
-  const user = localStorage.getItem("user");
+  const user = localStorage.getItem('user');
   const currentUser = JSON.parse(user);
 
   const {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm({
-    defaultValues: {
-      taskTitle: "",
-      taskCategory: "",
-      taskColor: "",
-      taskStatus: "",
-    },
-  });
+  } = useForm();
 
   const onSubmit = (data) => {
     addNewTask(data);
@@ -51,7 +44,7 @@ const Tasks = () => {
       >
         Add new Task
       </Button>
-      <div className={`add-task-form shadow ${showTaskForm ? "show" : ""}`}>
+      <div className={`add-task-form shadow ${showTaskForm ? 'show' : ''}`}>
         <div
           className="close-form"
           onClick={() => {
@@ -66,7 +59,6 @@ const Tasks = () => {
             registerLabel="taskTitle"
             errors={errors}
             register={register}
-            required
             placeholder="task item"
           />
           <Input
@@ -74,13 +66,12 @@ const Tasks = () => {
             registerLabel="taskCategory"
             errors={errors}
             register={register}
-            required
             placeholder="Task Category"
           />
           <div className="colors-container">
             <div className="radio-container">
               <input
-                {...register("taskColor")}
+                {...register('taskColor')}
                 type="radio"
                 value="#c8f7dc"
                 id="color1"
@@ -90,7 +81,7 @@ const Tasks = () => {
             </div>
             <div className="radio-container">
               <input
-                {...register("taskColor")}
+                {...register('taskColor')}
                 type="radio"
                 value="#fee4cb"
                 id="color2"
@@ -100,7 +91,7 @@ const Tasks = () => {
             </div>
             <div className="radio-container">
               <input
-                {...register("taskColor")}
+                {...register('taskColor')}
                 type="radio"
                 value="#e9e7fd"
                 id="color3"
@@ -110,7 +101,7 @@ const Tasks = () => {
             </div>
             <div className="radio-container">
               <input
-                {...register("taskColor")}
+                {...register('taskColor')}
                 type="radio"
                 value="#d5deff"
                 id="color4"
@@ -120,7 +111,7 @@ const Tasks = () => {
             </div>
             <div className="radio-container">
               <input
-                {...register("taskColor")}
+                {...register('taskColor')}
                 type="radio"
                 value="#dbf6fd"
                 id="color5"
@@ -131,12 +122,12 @@ const Tasks = () => {
           </div>
           <Select
             label="Status"
-            {...register("taskStatus")}
+            {...register('taskStatus')}
             required
             options={[
-              { value: "urgent", label: "Urgent" },
-              { value: "working", label: "Working" },
-              { value: "notImportant", label: "Not very important" },
+              { value: 'urgent', label: 'Urgent' },
+              { value: 'working', label: 'Working' },
+              { value: 'notImportant', label: 'Not very important' },
             ]}
           />
 

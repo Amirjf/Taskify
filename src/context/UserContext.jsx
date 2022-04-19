@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   createUserProfileDocument,
   onAuthStateChangedListener,
@@ -11,6 +12,7 @@ export const UserContext = createContext({
 
 export const UserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
+  const navigate = useNavigate();
   const value = { currentUser, setCurrentUser };
   useEffect(() => {
     const unsubscribe = onAuthStateChangedListener((user) => {
