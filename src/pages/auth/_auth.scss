@@ -32,5 +32,28 @@
 }
 .sign-in-button-container {
   display: flex;
-  gap: 25px;
+  width: 100%;
+}
+
+.sign-in-with-google-btn {
+  .google-sign-in-text {
+    display: flex;
+    flex-direction: row;
+    font-size: 1rem;
+    color: #7b7d807a;
+    margin-block: 20px;
+  }
+  .google-sign-in-text:before,
+  .google-sign-in-text:after {
+    content: '';
+    flex: 1 1;
+    border-bottom: 1px solid;
+    margin: auto;
+  }
+  .google-sign-in-text:before {
+    margin-right: 10px;
+  }
+  .google-sign-in-text:after {
+    margin-left: 10px;
+  }
 }

@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import Button from "../button/Button";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { useAuthState } from "react-firebase-hooks/auth";
+import React, { useEffect, useState } from 'react';
+import Button from '../button/Button';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import {
   auth,
   logInWithEmailAndPassword,
   signInWithGoogle,
-} from "../../firebase/firebase.config";
-import { useForm } from "react-hook-form";
-import Input from "../input/Input";
+} from '../../firebase/firebase.config';
+import { useForm } from 'react-hook-form';
+import Input from '../input/Input';
 
 const SignIn = () => {
   // const {
@@ -19,8 +19,8 @@ const SignIn = () => {
   // } = useForm();
 
   const [formValues, setFormValues] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
 
   const [user, loading, error] = useAuthState(auth);
@@ -44,7 +44,7 @@ const SignIn = () => {
     }
     if (user) {
       toast.success(`Sign in was Succussfull`);
-      navigate("/");
+      navigate('/');
     }
   }, [user, loading]);
 
@@ -67,30 +67,39 @@ const SignIn = () => {
   return (
     <div className="sign-in-container">
       <div>
-        <input
-          label="Email"
-          name="email"
-          onChange={handleChange}
-          value={email}
-          required
-          placeholder="Example : Amirmasoud@gmail.com"
-        />
+        <div className="input-container">
+          <label>Email</label>
+          <input
+            name="email"
+            onChange={handleChange}
+            value={email}
+            required
+            placeholder="Example : Amirmasoud@gmail.com"
+          />
+        </div>
+        <div className="input-container">
+          <label>Password</label>
 
-        <input
-          label="Password"
-          type="password"
-          name="password"
-          value={password}
-          onChange={handleChange}
-          required
-          placeholder="type a password"
-        />
+          <input
+            type="password"
+            name="password"
+            value={password}
+            onChange={handleChange}
+            required
+            placeholder="type a password"
+          />
+        </div>
+
         <div className="sign-in-button-container">
           <Button onClick={handleSignInWithEmailAndPassword}>Sign in</Button>
         </div>
-        <Button icon="google" isGoogle onClick={handleSignInWithGoogle}>
-          Sign in with Google
-        </Button>
+
+        <div className="sign-in-with-google-btn">
+          <h3 className="google-sign-in-text">Or Sign in with Google </h3>
+          <Button icon="google" isGoogle onClick={handleSignInWithGoogle}>
+            Sign in with Google
+          </Button>
+        </div>
       </div>
     </div>
   );
