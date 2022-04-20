@@ -1,13 +1,12 @@
-import React, { useContext } from "react";
-import { motion } from "framer-motion";
-
-import "./_taskitems.scss";
-import { TasksContext } from "../../context/TasksContext";
+import React, { useContext } from 'react';
+import { TasksContext } from '../../context/TasksContext';
+import { motion } from 'framer-motion';
+import './_taskitems.scss';
 
 const statusColors = {
-  urgent: "rgb(229 25 25 / 60%)",
-  working: "#0fcaac",
-  notImportant: "#6c6d6d",
+  urgent: 'rgb(229 25 25 / 60%)',
+  working: '#0fcaac',
+  notImportant: '#6c6d6d',
 };
 
 const TaskItems = ({ item }) => {
@@ -18,11 +17,11 @@ const TaskItems = ({ item }) => {
 
   const handleStatusColor = () => {
     switch (taskStatus) {
-      case "urgent":
+      case 'urgent':
         return statusColors.urgent;
-      case "working":
+      case 'working':
         return statusColors.working;
-      case "notImportant":
+      case 'notImportant':
         return statusColors.notImportant;
       default:
         return;
@@ -42,13 +41,14 @@ const TaskItems = ({ item }) => {
         exit={{ opacity: 0, scale: 0 }}
         layout
         className="project-box"
-        style={{ background: taskColor ? taskColor : "#c8f7dc" }}
+        style={{ background: taskColor ? taskColor : '#c8f7dc' }}
       >
         <div className="project-box-header">
           <span>{taskCreatedAt}</span>
           <div className="more-wrapper">
+            <span className="action-text">Done</span>
             <button
-              className="add-participant"
+              className="task-action done-task-button"
               onClick={() => setTaskToCompleted(item)}
             >
               <i className="gg-check text-success"></i>
@@ -66,17 +66,21 @@ const TaskItems = ({ item }) => {
         </div>
 
         <div className="project-box-footer">
-          <div className="participants">
+          <div className="delete-task-container">
             <button
-              className="add-participant"
+              className="task-action delete-task-button"
               onClick={() => removeTask(item)}
             >
-              <i className="gg-trash text-danger"></i>
+              <i className="bx bx-trash text-danger"></i>
+            </button>
+            <span className="delete-task-text">Delete</span>
+          </div>
+          <div className="edit-task-container">
+            <span className="edit-task-text">Edit</span>
+            <button className="task-action edit-task-button">
+              <i className="bx bx-edit text-warning"></i>
             </button>
           </div>
-          <button className="add-participant">
-            <i className="gg-pen text-warning"></i>
-          </button>
         </div>
       </motion.div>
     </motion.div>
