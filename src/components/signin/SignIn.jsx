@@ -8,8 +8,6 @@ import {
   logInWithEmailAndPassword,
   signInWithGoogle,
 } from '../../firebase/firebase.config';
-import { useForm } from 'react-hook-form';
-import Input from '../input/Input';
 
 const SignIn = () => {
   // const {
