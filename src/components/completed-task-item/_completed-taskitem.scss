@@ -9,7 +9,8 @@
   .task-info {
     display: flex;
     align-items: center;
-    .undo-icon-container {
+    .delete-icon-container {
+      cursor: pointer;
       position: relative;
       border-radius: 100%;
       background: var(--bg-level-1);

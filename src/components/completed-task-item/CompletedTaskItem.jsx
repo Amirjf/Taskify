@@ -11,14 +11,13 @@ const CompletedTaskItem = ({ task }) => {
     <motion.div
       initial={{ x: -100 }}
       animate={{ x: 0, opacity: 1 }}
-      exit={{ x: 320 }}
       transition={{ type: 'spring' }}
       layout
       className="completed-tasks-container"
     >
       <div className="task-info">
         <span
-          className="undo-icon-container"
+          className="delete-icon-container"
           onClick={() => removeCompletedTask(task)}
         >
           <i className="bx bx-trash"></i>

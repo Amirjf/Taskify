@@ -1,13 +1,13 @@
-import { collection, doc, getDocs } from "firebase/firestore";
-import { createContext, useEffect, useState, useCallback } from "react";
-import { toast } from "react-toastify";
+import { collection, doc, getDocs } from 'firebase/firestore';
+import { createContext, useEffect, useState, useCallback } from 'react';
+import { toast } from 'react-toastify';
 
-import { db2 } from "../firebase/firebase.config";
+import { db2 } from '../firebase/firebase.config';
 import {
   CreateTaskCollection,
   deleteTaskDoc,
   setTaskCompleted,
-} from "../firebase/firebase.utils";
+} from '../firebase/firebase.utils';
 
 export const TasksContext = createContext({
   tasks: [],
@@ -29,7 +29,7 @@ export const TasksProvider = ({ children }) => {
 
   const [loading, setLoading] = useState(false);
 
-  const user = localStorage.getItem("user");
+  const user = localStorage.getItem('user');
   const currentUser = JSON.parse(user);
 
   useEffect(() => {
@@ -49,8 +49,8 @@ export const TasksProvider = ({ children }) => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const userRef = doc(db2, "users", currentUser.uid);
-        const tasksDoc = await getDocs(collection(userRef, "tasks"));
+        const userRef = doc(db2, 'users', currentUser.uid);
+        const tasksDoc = await getDocs(collection(userRef, 'tasks'));
         const data = tasksDoc.docs.map((doc) => {
           return doc.data();
         });
@@ -71,8 +71,8 @@ export const TasksProvider = ({ children }) => {
   useEffect(() => {
     const getCompletedTasks = async () => {
       try {
-        const userRef = doc(db2, "users", currentUser.uid);
-        const tasksDoc = await getDocs(collection(userRef, "tasks"));
+        const userRef = doc(db2, 'users', currentUser.uid);
+        const tasksDoc = await getDocs(collection(userRef, 'tasks'));
         const data = tasksDoc.docs.map((doc) => {
           return doc.data();
         });
@@ -135,7 +135,7 @@ export const TasksProvider = ({ children }) => {
   const setTaskToCompleted = useCallback(
     (taskToComplete) => {
       try {
-        taskToComplete["isTaskCompleted"] = true;
+        taskToComplete['isTaskCompleted'] = true;
         setTaskCompleted(currentUser, taskToComplete);
 
         setCompletedTasks([taskToComplete, ...completedTasks]);

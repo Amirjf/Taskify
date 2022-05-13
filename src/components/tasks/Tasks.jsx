@@ -18,6 +18,8 @@ const Tasks = () => {
   const user = localStorage.getItem('user');
   const currentUser = JSON.parse(user);
 
+  useEffect(() => {}, [tasks]);
+
   const {
     handleSubmit,
     register,
